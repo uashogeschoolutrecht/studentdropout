@@ -282,6 +282,37 @@ This table is from studielink. It does not provide very specific data from stude
 | PEILDATUM     | datetime2(7)       | NULL     | Reference date for the data provided.                    |
 | VERSIE        | int                | NULL     | Version number of the data entry.                        |
 
+## what is a student dropout?
+
+1. **Definition of Dropout**: There are multiple definitions of dropouts depending on different institutions:
+   - **Leaving a specific program**: A student leaves a particular course or program but might continue their education elsewhere or in another program.
+   - **Switching within the same institution**: A student changes their study track within the same institution.
+   - **Stopping studies altogether**: A student leaves their studies without enrolling in any other program or institution.
+
+2. **Variations in Dropout Definitions**:
+   - **Staying within the same field but at a different institution**: Not considered a dropout by some institutions.
+   - **Shared first-year programs**: Some students might enroll in two study tracks simultaneously and decide on one after the first year, which might be wrongly registered as a dropout.
+
+3. **Challenges in Data Registration**: The conversation highlights the difficulty in accurately capturing and labeling dropout data due to varying definitions and shared programs.
+
+4. **Proposed Categories**:
+   - **Dropout**: Students who leave their initial program and do not continue within the same institution or in the same field elsewhere.
+   - **Non-dropout**: Students who continue their studies in the same program or institution.
+   - **Transitioned**: Students who switch their study track within the same institution or move to another institution but in the same field.
+
+5. **Special Cases**:
+   - **Stepping Stone**: Students using their current program as a stepping stone to transfer to a university from a University of Applied Sciences. This category needs to be labeled separately to avoid confusion with dropouts.
+
+6. **Data Management**:
+   - Data access and labeling are crucial. There is a need for specific query-based data extraction due to strict data access policies.
+   - The conversation suggests a need for defining the project scope and aligning it with existing academic references and definitions.
+
+7. **Additional Considerations**:
+   - Research on how other institutions define and handle dropout data.
+   - Collaboration with experts and potentially involving external resources for better understanding and implementation.
+
+8. **Administrative Note**: The conversation ends with a reminder about the need to establish a project code for tracking working hours.
+
 ## Data Preparation
 ## Modeling
 ## Evaluation
