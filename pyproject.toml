@@ -1,0 +1,32 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "studentdropout"
+version = "0.0.1"
+description = "is a proactive tool designed to identify and support at-risk students at Hogeschool Utrecht. Leveraging predictive analytics on enrollment data, the tool aims to detect potential dropouts early in their academic journey. This allows for timely interventions that are tailored to individual needs, enhancing student success and promoting equity in educational outcomes."
+authors = [
+  { name = "Data Science Pool" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License"
+]
+requires-python = "~=3.10"
+
+[tool.black]
+line-length = 99
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+)/
+'''
+
+[tool.ruff.lint.isort]
+known_first_party = ["studentdropout"]
+force_sort_within_sections = true
