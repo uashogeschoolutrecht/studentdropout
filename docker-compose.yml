@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mkdocs:
     build: ./docs 
@@ -9,3 +7,18 @@ services:
     ports:
       - "8000:8000"
     command: "mkdocs serve -a 0.0.0.0:8000"
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: dspTeam
+      POSTGRES_PASSWORD: dsp2024
+      POSTGRES_DB: studentdropout
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
