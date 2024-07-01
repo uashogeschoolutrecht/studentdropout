@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  mkdocs:
+    build: ./docs 
+    volumes:
+      - ./docs:/docs  # Maps local 'docs' directory to '/docs' in the container
+
+    ports:
+      - "8000:8000"
+    command: "mkdocs serve -a 0.0.0.0:8000"
