@@ -1,9 +1,9 @@
+version: '3.9'
 services:
   mkdocs:
     build: ./docs 
     volumes:
-      - ./docs:/docs  # Maps local 'docs' directory to '/docs' in the container
-
+      - ./docs:/docs  
     ports:
       - "8000:8000"
     command: "mkdocs serve -a 0.0.0.0:8000"
@@ -20,5 +20,32 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  airflow_postgres:
+    image: postgres:latest
+    container_name: airflow_postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow2024
+      POSTGRES_DB: airflow
+    ports:
+      - "5433:5432"
+    volumes:
+      - airflow_postgres_data:/var/lib/postgresql/data
+
+  airflow:
+    build: ./airflow
+    depends_on:
+      - airflow_postgres
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow2024@airflow_postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./data/raw:/data/raw
+    ports:
+     - "8080:8080"
+    command: airflow standalone
+
 volumes:
   postgres_data:
+  airflow_postgres_data:
