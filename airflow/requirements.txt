@@ -1,0 +1,5 @@
+apache-airflow==2.7.1
+pandas
+sqlalchemy
+psycopg2-binary
+openpyxl
