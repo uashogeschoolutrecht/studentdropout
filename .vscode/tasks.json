@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install Package and Update Requirements",
+            "type": "shell",
+            "command": "${workspaceFolder}\\install_update_requirements.bat",
+            "args": [
+                "${input:packageName}"
+            ],
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "packageName",
+            "type": "promptString",
+            "description": "Enter the package name"
+        }
+    ]
+}
