@@ -135,7 +135,7 @@ This table contains the prior education details for students, which are crucial 
 | SCHOOL_NAAM                  | nvarchar(max)      | NULL     | Name of the school.                     |
 | SCHOOL_STRAATNAAM            | nvarchar(max)      | NULL     | School street name.                     |
 | SCHOOL_NUMMER                | int                | NULL     | School number.                          |
-| SCHOOL_TOEVOEGING_NUMMER     | nvarchar(max)      | NULL     | School number addition.                 |
+| SCHOOL_TOEVOEGING_NUMMER     | nvarchar(max)      | NULL     | School number adition.                 |
 | SCHOOL_POSTCODE              | nvarchar(max)      | NULL     | School postal code.                     |
 | SCHOOL_PLAATS                | nvarchar(max)      | NULL     | School location.                        |
 | SCHOOL_LAND                  | nvarchar(max)      | NULL     | Country of the school.                  |
