@@ -9,6 +9,45 @@
                 "${input:packageName}"
             ],
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "path": "dropout/Lib/site-packages/jupyterlab/galata/@jupyterlab/galata-extension",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "npm: build - dropout/Lib/site-packages/jupyterlab/galata/@jupyterlab/galata-extension",
+            "detail": "npm run build:lib && npm run build:labextension"
+        },
+        {
+            "label": "Git Add",
+            "type": "shell",
+            "command": "git",
+            "args": ["add", "."],
+            "problemMatcher": [],
+            "detail": "Stages all files"
+        },
+        {
+            "label": "Git Commit",
+            "type": "shell",
+            "command": "git",
+            "args": ["commit", "-m", "${input:commitMessage}"],
+            "problemMatcher": [],
+            "detail": "Commits changes with a custom message"
+        },
+        {
+            "label": "Git Push",
+            "type": "shell",
+            "command": "git",
+            "args": ["push"],
+            "problemMatcher": [],
+            "detail": "Pushes changes to the remote repository"
+        },
+        {
+            "label": "Git Commit and Push",
+            "dependsOn": ["Git Add", "Git Commit", "Git Push"],
+            "problemMatcher": [],
+            "detail": "Runs Git Add, Commit, and Push in sequence"
         }
     ],
     "inputs": [
@@ -16,6 +55,11 @@
             "id": "packageName",
             "type": "promptString",
             "description": "Enter the package name"
+        },
+        {
+            "id": "commitMessage",
+            "type": "promptString",
+            "description": "Enter your commit message"
         }
     ]
 }
