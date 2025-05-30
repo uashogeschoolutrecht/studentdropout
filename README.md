@@ -1,10 +1,22 @@
-# studentdropout
-
+# Predicting student drop-out
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-is a proactive tool designed to identify and support at-risk students at Hogeschool Utrecht. Leveraging predictive analytics on enrollment data, the tool aims to detect potential dropouts early in their academic journey. This allows for timely interventions that are tailored to individual needs, enhancing student success and promoting equity in educational outcomes.
+Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
+
+Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
+
+Currently we are in Phase 2: extending the prototype model with more data, and we are loosely following the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/).
+
+## Stakeholders & collaborators
+- Rick Ikkersheim (previous Project Lead)
+- Timme Stols (initial client)
+- Team Data & Analytics
+- Harald Breshamer (Analytics domain team Student & Marketing Analytics)
+- Bram Versteeg (Analytics domain team Student & Marketing Analytics)
+- Herbert Wubben (Analytics domain team Educational Analytics)
+- Justian Knobbout (Analytics domain team Learning Analytics)
 
 ## Project Organization
 
@@ -59,8 +71,3 @@ is a proactive tool designed to identify and support at-risk students at Hogesch
 ```
 
 --------
-
-## getting this ready
-
-1. make environment
-2. make requirements
