@@ -9,6 +9,7 @@ Current drop-out rates of freshman students at the Hogeschool Utrecht averages 4
 
 Currently we are in Phase 2: extending the prototype model with more data, and we are loosely following the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/).
 
+
 ## Stakeholders & collaborators
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
@@ -19,6 +20,7 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
 - Justian Knobbout (Analytics domain team Learning Analytics)
 
 ## Data
+The following data will be used to train the ML model to predict student drop-out and is collected on a student granularity:
 - Student characteristics
     - Gender
     - Age at enrollment
@@ -29,9 +31,9 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
 - Student orientation
     - Number of events attended
     - What else? > advice Bram needed!
-    - Advice from Choice of Degree Check (SKC)
+    - Advice from Choice of Degree Check (SKC) (?)
 - Student application
-    - Number of applications
+    - Number of applications (?)
     - Date of application (?) 
     - Previous enrollments (?)
 - Degree characteristics
@@ -49,23 +51,33 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
     - Total number of credits after block A
     - Total number of credits after block B
     - Get advice from Harald?
-- Student motivation
-    - 100 dagen monitor data (?): which indicators?
+- Student motivation & involvement
+    - happiness with current choice of degree
+    - intention to finish degree
+    - perceived transition between previous eduction and current degree
+    - perceived problems within the degree
+    - perceived bond (with degree, teachers, peers, etc.)
+    - perceived support 
+    - rating of atmosphere
+- Student well-being
+    - perceived stress level
+    - perceived energy level
+    - perceived pressure
 
 ### Impossible sources of extra data
 - Course attendance? Is not available currently
 - Course digital attendance? Is possibly available in Canvas
 
 ### Scope
-Only the following data is included to limit the scope:
-- First year (freshmen) students
+Only the following students are included to limit the scope:
+- First year's (freshmen)
 - Bachelor degree
 - Full-time
 - Enrolled
-- No minor/exchange
+- Not a minor/exchange
 - Start period = 1st of september
 
-## Training data scope
+#### Training data scope
 - Collegeyear between 2018 and 2023
 
 ## Project Organization
