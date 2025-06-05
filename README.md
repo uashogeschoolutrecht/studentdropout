@@ -10,13 +10,63 @@ Current drop-out rates of freshman students at the Hogeschool Utrecht averages 4
 Currently we are in Phase 2: extending the prototype model with more data, and we are loosely following the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/).
 
 ## Stakeholders & collaborators
-- Rick Ikkersheim (previous Project Lead)
-- Timme Stols (initial client)
-- Team Data & Analytics
+- Timme Stols (Team Digitale Leeromgeving)
+- Klaske de Hoop (Team Data & Analytics)
 - Harald Breshamer (Analytics domain team Student & Marketing Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
+- Rick Ikkersheim (Program Manager Student Sucess)
 - Herbert Wubben (Analytics domain team Educational Analytics)
 - Justian Knobbout (Analytics domain team Learning Analytics)
+
+## Data
+- Student characteristics
+    - Gender
+    - Age at enrollment
+    - Dutch national [yes/no]
+    - Travel distance to university at enrollment
+    - Previous education level
+    - Time since previous education graduation (?)
+- Student orientation
+    - Number of events attended
+    - What else? > advice Bram needed!
+    - Advice from Choice of Degree Check (SKC)
+- Student application
+    - Number of applications
+    - Date of application (?) 
+    - Previous enrollments (?)
+- Degree characteristics
+    - Name of degree
+    - Binding Study Advice (BSA) [yes/no]
+    - Urgent Study Advice (DSA) [yes/no]
+- Enrollment characteristics
+    - Collegeyear
+    - Propedeuse obtained [yes/no]
+    - Drop-out [yes/no]
+    - Degree switch [yes/no] >> exclude?
+- Course results
+    - Average degree after block A
+    - Average degree after block B
+    - Total number of credits after block A
+    - Total number of credits after block B
+    - Get advice from Harald?
+- Student motivation
+    - 100 dagen monitor data (?): which indicators?
+
+### Impossible sources of extra data
+- Course attendance? Is not available currently
+- Course digital attendance? Is possibly available in Canvas
+
+### Scope
+Only the following data is included to limit the scope:
+- First year (freshmen) students
+- Bachelor degree
+- Full-time
+- Enrolled
+- No minor/exchange
+- Start period = 1st of september
+
+## Training data scope
+- Collegeyear between 2018 and 2023
 
 ## Project Organization
 
