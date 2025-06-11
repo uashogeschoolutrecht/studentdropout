@@ -5,6 +5,11 @@
 
 Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
 
+Collaborators: 
+- Harald Breshamer (Analytics domain team Student & Marketing Analytics)
+- Bram Versteeg (Analytics domain team Student & Marketing Analytics)
+
+# Goal
 Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
 
 Currently we are in Phase 2: extending the prototype model with more data, and we are loosely following the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/).
@@ -13,8 +18,6 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
 ## Stakeholders & collaborators
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
-- Harald Breshamer (Analytics domain team Student & Marketing Analytics)
-- Bram Versteeg (Analytics domain team Student & Marketing Analytics)
 - Rick Ikkersheim (Program Manager Student Sucess)
 - Herbert Wubben (Analytics domain team Educational Analytics)
 - Justian Knobbout (Analytics domain team Learning Analytics)
@@ -23,34 +26,42 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
 The following data will be used to train the ML model to predict student drop-out and is collected on a student granularity:
 - Student characteristics
     - Gender
-    - Age at enrollment
+    - Age -> age at enrollment
     - Dutch national [yes/no]
-    - Travel distance to university at enrollment
+    - Postal code -> travel distance to university at enrollment
     - Previous education level
-    - Time since previous education graduation (?)
+    - Is previous education a foreign degree [yes/no]
+    - Previous education profile
+    - Previous education school success rate
+    - Exam date -> Time since previous education graduation
 - Student orientation
     - Number of events attended
-    - What else? > advice Bram needed!
-    - Advice from Choice of Degree Check (SKC) (?)
+    - Type of events attended
+    - Time before start degree
+    - Timing of event within the year
+    - Advice from Choice of Degree Check (SKC)
 - Student application
-    - Number of applications (?)
-    - Date of application (?) 
-    - Previous enrollments (?)
+    - Number of applications
+    - Date of application
+    - Previous enrollments
+    - Previous enrollment in same domain
 - Degree characteristics
     - Name of degree
+    - Entry requirements
     - Binding Study Advice (BSA) [yes/no]
     - Urgent Study Advice (DSA) [yes/no]
 - Enrollment characteristics
     - Collegeyear
     - Propedeuse obtained [yes/no]
     - Drop-out [yes/no]
-    - Degree switch [yes/no] >> exclude?
+    - Degree switch [yes/no] -> ask business
 - Course results
     - Average degree after block A
     - Average degree after block B
     - Total number of credits after block A
+    - Potential number of credits after block A
     - Total number of credits after block B
-    - Get advice from Harald?
+    - Potential number of credits after blok B
 - Student motivation & involvement
     - happiness with current choice of degree
     - intention to finish degree
@@ -76,6 +87,8 @@ Only the following students are included to limit the scope:
 - Enrolled
 - Not a minor/exchange
 - Start period = 1st of september
+
+Exclude non-typical degrees? E.g. law, nursing
 
 #### Training data scope
 - Collegeyear between 2018 and 2023
