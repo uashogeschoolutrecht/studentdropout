@@ -6,63 +6,65 @@
 Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
 
 Collaborators: 
+- Anne Leemans (Team Data & Analytics)
 - Harald Breshamer (Analytics domain team Student & Marketing Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
 
 # Goal
 Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
 
-Currently we are in Phase 2: extending the prototype model with more data, and we are loosely following the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/).
-
+Currently we are in Phase 2: extending the prototype model with more data, and we loosely follow the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/). The goal of this phase is to predict freshman student drop-out with an accuracy of 75+%, a recall of 70+%, a precision of 60+% and a F1 score of 65+% [add references].
 
 ## Stakeholders & collaborators
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
 - Rick Ikkersheim (Program Manager Student Sucess)
-- Herbert Wubben (Analytics domain team Educational Analytics)
+- Gerwin Hendriks (Team Institutional Research)
 - Justian Knobbout (Analytics domain team Learning Analytics)
 
 ## Data
-The following data will be used to train the ML model to predict student drop-out and is collected on a student granularity:
-- Student characteristics
+The following data will be used to train the ML model to predict student drop-out and is collected on a student-enrollment granularity:
+- 1. Student characteristics at enrollment
     - Gender
-    - Age -> age at enrollment
+    - Age (feature: age group at enrollment)
     - Dutch national [yes/no]
-    - Postal code -> travel distance to university at enrollment
+    - Postal code (feature: travel distance to university)
+    - Previous education postal code (feature: previous education distance to university) 
     - Previous education level
     - Is previous education a foreign degree [yes/no]
     - Previous education profile
-    - Previous education school success rate
-    - Exam date -> Time since previous education graduation
-- Student orientation
+    - Previous education school graduation rate
+    - Previous education average exam grade
+    - Exam date (feature: time since previous education graduation)
+- 2. Student orientation
     - Number of events attended
     - Type of events attended
     - Time before start degree
     - Timing of event within the year
     - Advice from Choice of Degree Check (SKC)
-- Student application
+- 3. Student application
     - Number of applications
     - Date of application
     - Previous enrollments
     - Previous enrollment in same domain
-- Degree characteristics
+- 4. Degree characteristics
     - Name of degree
     - Entry requirements
     - Binding Study Advice (BSA) [yes/no]
     - Urgent Study Advice (DSA) [yes/no]
-- Enrollment characteristics
+- 5. Enrollment characteristics
     - Collegeyear
     - Propedeuse obtained [yes/no]
     - Drop-out [yes/no]
     - Degree switch [yes/no] -> ask business
-- Course results
+- 6. Course results
     - Average degree after block A
     - Average degree after block B
     - Total number of credits after block A
     - Potential number of credits after block A
     - Total number of credits after block B
     - Potential number of credits after blok B
-- Student motivation & involvement
+- 7. Student motivation & involvement
     - happiness with current choice of degree
     - intention to finish degree
     - perceived transition between previous eduction and current degree
@@ -70,10 +72,13 @@ The following data will be used to train the ML model to predict student drop-ou
     - perceived bond (with degree, teachers, peers, etc.)
     - perceived support 
     - rating of atmosphere
-- Student well-being
+- 8. Student well-being
     - perceived stress level
     - perceived energy level
     - perceived pressure
+
+## Features
+
 
 ### Impossible sources of extra data
 - Course attendance? Is not available currently
