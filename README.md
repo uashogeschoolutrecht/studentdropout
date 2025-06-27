@@ -10,11 +10,6 @@ Collaborators:
 - Harald Breshamer (Analytics domain team Student & Marketing Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
 
-# Goal
-Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
-
-Currently we are in Phase 2: extending the prototype model with more data, and we loosely follow the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/). The goal of this phase is to predict freshman student drop-out with an accuracy of 75+%, a recall of 70+%, a precision of 60+% and a F1 score of 65+% [add references].
-
 ## Stakeholders & collaborators
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
@@ -22,8 +17,34 @@ Currently we are in Phase 2: extending the prototype model with more data, and w
 - Gerwin Hendriks (Team Institutional Research)
 - Justian Knobbout (Analytics domain team Learning Analytics)
 
+# Goal
+Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
+
+Currently we are in Phase 2: extending the prototype model with more data, and we loosely follow the approach as proposed by [the Datacoalitie](https://datagedrevenonderzoekmbo.nl/themas/voorspelmodel/praktijkpilot-de-uitnodigingsregel/). The goal of this phase is to identify which ML model fits best to predict freshman student drop-out. Then we will apply the model to a wide range of student-related to predict freshman student drop-out, and we aim for a model performance of:
+- recall of 75+%, 
+- precision of 60+% and
+- F1 score of 65+% .
+
+We define 'First year drop-out' using the broader definition: any student that discontinues his/her studies during or directly following the first college year. This includes students switching degrees (internally or externally), discontinuing with a propedeuse and discontinuing without a propedeuse. 
+
 ## Data
-The following data will be used to train the ML model to predict student drop-out and is collected on a student-enrollment granularity:
+Data on student-enrollment granularity is gathered within a certain scope (see below) for eight different categories (see Data categories), and will be used to train and test the ML model to predict student drop-out.
+
+### Scope
+The following students are included in the scope:
+- First year's (freshmen)
+- Bachelor degree
+- Full-time
+- Enrolled
+- Not a minor/exchange
+- Start period = 1st of september
+- Between collegeyear 2018 and 2023
+- All HU degrees*
+
+* There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
+
+### Data categories
+Data is gathered in 8 different categories:
 - 1. Student characteristics at enrollment
     - Gender
     - Age (feature: age group at enrollment)
@@ -77,21 +98,12 @@ The following data will be used to train the ML model to predict student drop-ou
     - perceived energy level
     - perceived pressure
 
-## Features
-
-
-### Impossible sources of extra data
-- Course attendance? Is not available currently
-- Course digital attendance? Is possibly available in Canvas
+### Impossible data categories
+The following data (categories) were identified as possible predictors of student drop-out, either based on literature or subject-matter expert knowledge, but we have not been able to gather the data within the Hogeschool Utrecht context:
+- Course attendance. Not available within the HU, and there might be a national legislation forbidding this type of data collection. 
+- Digital course attendance? Is possibly available in Canvas
 
 ### Scope
-Only the following students are included to limit the scope:
-- First year's (freshmen)
-- Bachelor degree
-- Full-time
-- Enrolled
-- Not a minor/exchange
-- Start period = 1st of september
 
 Exclude non-typical degrees? E.g. law, nursing
 
