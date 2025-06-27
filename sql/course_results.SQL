@@ -75,7 +75,11 @@ toets_resultaten AS (
 -- CTE 3: Credit Results Calculation
 -- Aggregates credits and grades per student per block
 Credit_results AS (
-    SELECT 
+    SELECT inschrijvingen.[D_STUDENT_ID],
+        inschrijvingen.[Ingangsmaand],
+        inschrijvingen.[D_FASE_ID],
+        inschrijvingen.[D_VORM_ID],
+        inschrijvingen.[D_CROHO_ACTUEEL_ID],
         inschrijvingen.[STUDENTNUMMER] AS [Student number],
         toets_resultaten.[BLOK_LETTER] AS [Block],
         inschrijvingen.[COLLEGEJAAR] AS [Study year],
@@ -106,10 +110,11 @@ Credit_results AS (
         AND inschrijvingen.[COLLEGEJAAR] = inschrijvingen.[COHORT_OPLEIDING]  -- First year
         AND inschrijvingen.[Ingangsmaand] = '9'           -- September intake
         AND inschrijvingen.[FASE_OMS] = 'Propedeuse'      -- First year phase
-        AND inschrijvingen.[CROHO] = '39280'              -- Specific program code (for testing purposes)
-        AND inschrijvingen.[COLLEGEJAAR] = 2022           -- 2022 cohort (for testing purposes)
-        -- AND (inschrijvingen.[STUDENTNUMMER] = '1835931' OR inschrijvingen.[STUDENTNUMMER] = '1833704')  -- specific students (for testing purposes)
-    GROUP BY 
+    GROUP BY inschrijvingen.[D_STUDENT_ID],
+        inschrijvingen.[Ingangsmaand],
+        inschrijvingen.[D_FASE_ID],
+        inschrijvingen.[D_VORM_ID],
+        inschrijvingen.[D_CROHO_ACTUEEL_ID],
         inschrijvingen.[STUDENTNUMMER],
         inschrijvingen.[COLLEGEJAAR],
         inschrijvingen.[CROHO],
@@ -118,9 +123,11 @@ Credit_results AS (
 
 -- Final Results: Pivot Block A and B results into separate columns
 SELECT 
-    [Student number],
-    [Study year],
-    [Croho],
+    D_STUDENT_ID,
+    D_FASE_ID,
+    D_VORM_ID,
+    D_CROHO_ACTUEEL_ID,
+    Ingangsmaand,
     enrolled AS [Enrolled in course],
     
     -- Block A Results
@@ -136,16 +143,18 @@ SELECT
     CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Average Grade] ELSE NULL END), 0), 2)) AS [Average Grade B]
     
 FROM Credit_results
-GROUP BY 
-    [Student number], 
-    [Study year], 
-    [Croho],
+WHERE 1 = 1
+    AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
+    -- AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
+    AND [Croho] = '39280'
+    
+GROUP BY D_STUDENT_ID,
+    Ingangsmaand,
+    D_FASE_ID,
+    D_VORM_ID,
+    D_CROHO_ACTUEEL_ID,
     [enrolled]
-ORDER BY 
-    [Student number];
 
--- ==============================================================================
--- END OF QUERY
 -- ==============================================================================
 
 
