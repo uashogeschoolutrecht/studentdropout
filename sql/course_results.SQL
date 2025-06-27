@@ -14,6 +14,7 @@ WITH inschrijvingen AS (
         inschrijvingen.[COHORT_OPLEIDING],
         inschrijvingen.[D_FASE_ID],
         inschrijvingen.[D_VORM_ID],
+		inschrijvingen.SINH_ID,
         student.[STUDENTNUMMER],
         inschrijvingen.[COLLEGEJAAR],
         studievorm.[VORM_CD],
@@ -81,18 +82,19 @@ Credit_results AS (
         inschrijvingen.[D_VORM_ID],
         inschrijvingen.[D_CROHO_ACTUEEL_ID],
         inschrijvingen.[STUDENTNUMMER] AS [Student number],
+		inschrijvingen.SINH_ID,
         toets_resultaten.[BLOK_LETTER] AS [Block],
         inschrijvingen.[COLLEGEJAAR] AS [Study year],
         inschrijvingen.[CROHO] AS [Croho],
         AVG(toets_resultaten.[RESULTAAT_NUMERIC]) AS [Average Grade],
         COALESCE(SUM(PUNTEN_GELDIG), 0) AS [Total Credits],
         COALESCE(SUM(PUNTEN), 0) AS [Potential Credits],
-        CASE WHEN toets_resultaten.[BLOK_LETTER] IS NOT NULL THEN 1 ELSE 0 END AS [Enrolled],
+        CASE WHEN toets_resultaten.[BLOK_LETTER] IS NOT NULL THEN 1 ELSE 0 END AS [Enrolled for at least one exam],
         -- Calculate percentage of credits obtained
         CASE 
-            WHEN SUM(PUNTEN) IS NOT NULL 
+            WHEN SUM(PUNTEN) IS NOT NULL AND SUM(PUNTEN) > 0
             THEN ROUND(SUM(PUNTEN_GELDIG)/SUM(PUNTEN)*100, 2) 
-            ELSE 0 
+            ELSE NULL
         END AS [Percentage Credits]
     FROM inschrijvingen
         LEFT JOIN toets_resultaten
@@ -115,6 +117,7 @@ Credit_results AS (
         inschrijvingen.[D_FASE_ID],
         inschrijvingen.[D_VORM_ID],
         inschrijvingen.[D_CROHO_ACTUEEL_ID],
+		inschrijvingen.SINH_ID,
         inschrijvingen.[STUDENTNUMMER],
         inschrijvingen.[COLLEGEJAAR],
         inschrijvingen.[CROHO],
@@ -122,42 +125,28 @@ Credit_results AS (
 )
 
 -- Final Results: Pivot Block A and B results into separate columns
-SELECT 
-    D_STUDENT_ID,
-    D_FASE_ID,
-    D_VORM_ID,
-    D_CROHO_ACTUEEL_ID,
-    Ingangsmaand,
-    enrolled AS [Enrolled in course],
+SELECT TOP(100000)
+	SINH_ID,
+    [Enrolled for at least one exam],
     
     -- Block A Results
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Total Credits] ELSE 0 END), 0), 2)) AS [Total Credits Block A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Potential Credits] ELSE 0 END), 0), 2)) AS [Potential Credits A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Percentage Credits] ELSE NULL END), 0), 2)) AS [Percentage Credits A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Average Grade] ELSE NULL END), 0), 2)) AS [Average Grade A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Total Credits] ELSE 0 END), NULL), 2)) AS [Total Credits Block A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade A],
     
     -- Block B Results
     CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'B' THEN [Total Credits] ELSE 0 END), 0), 2)) AS [Total Credits Block B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'B' THEN [Potential Credits] ELSE 0 END), 0), 2)) AS [Potential Credits B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Percentage Credits] ELSE NULL END), 0), 2)) AS [Percentage Credits B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Average Grade] ELSE NULL END), 0), 2)) AS [Average Grade B]
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'B' THEN [Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits B],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits B],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade B]
     
 FROM Credit_results
 WHERE 1 = 1
-    AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
-    -- AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
-    AND [Croho] = '39280'
+    AND [Study year] >= 2018
+	AND [Study year] < 2024
     
-GROUP BY D_STUDENT_ID,
-    Ingangsmaand,
-    D_FASE_ID,
-    D_VORM_ID,
-    D_CROHO_ACTUEEL_ID,
-    [enrolled]
-
+GROUP BY SINH_ID,
+    [Enrolled for at least one exam]
+ORDER BY SINH_ID
 -- ==============================================================================
-
-
-
-
-
