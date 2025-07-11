@@ -1,7 +1,15 @@
+-- This query retrieves the drop-out statistics for first-year bachelor students at HU, focusing on those who started in September and left without a diploma or switched degrees.
+-- It includes details such as the student's ID, college year, start and end dates, degree name, and phase of study.
+-- The results are grouped by cohort, college year, degree name, and other relevant fields, and ordered by college year and degree name.
+-- The query filters for students who enrolled in the propaedeutic phase (D) of their studies, ensuring that only relevant records are included.
+-- The output includes indicators for whether the student left without a diploma or switched degrees, and marks them as drop-outs accordingly.
+-- The query is designed to provide insights into student retention and drop-out rates for the specified period, aiding in understanding trends and improving student support strategies.
+
 SELECT	  MIN(si.sinh_id) AS sinh_d											
 		, si.collegejaar										
 		, MIN(si.ingangsdatum) AS ingangsdatum	
-		, MAX(si.afloopdatum) AS afloopdatum										
+		, MAX(si.afloopdatum) AS afloopdatum		
+		, MAX(si.inschrijfdatum) AS inschrijfdatum
 		, si.naam_en AS opl_naam_en										
 		, si.opleiding										
 		, MAX(si.fase_cd) AS fase -- propaedeutic fase (D) > bachelor fase (B)										
@@ -15,7 +23,8 @@ FROM (
             , i.cohort_opleiding													
             , i.collegejaar													
             , CONVERT(DATE, CAST(i.d_tijd_dag_ingang_id AS CHAR(8)), 112) AS ingangsdatum													
-			, FORMAT(CONVERT(DATE, CAST(i.d_tijd_dag_afloop_id AS CHAR(8)), 112), 'dd-MM-yyyy') AS afloopdatum								
+			, CONVERT(DATE, CAST(i.d_tijd_dag_afloop_id AS CHAR(8)), 112) AS afloopdatum		
+			, CONVERT(DATE, CAST(i.D_TIJD_DAG_VERZOEK_INS_ID AS CHAR(8)), 112) AS inschrijfdatum	
             , o.naam_en													
             , o.opleiding													
             , c.croho													
@@ -29,7 +38,7 @@ FROM (
 				END examendatum								
             , i.ind_propedeuse_behaald													
             , i.uitstroom_zonder_diploma													
-            , i.opleiding_switch_uit													
+            , i.opleiding_switch_uit
         FROM DM.VW_DM_F_STUDENT_INSCHRIJFHIST i													
 			JOIN DM.VW_DM_D_OPLEIDING o ON i.d_opleiding_id = o.d_opleiding_id								
 			JOIN DM.VW_DM_D_VORM v ON i.d_vorm_id = v.d_vorm_id								
