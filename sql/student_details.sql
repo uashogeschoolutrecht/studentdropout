@@ -1,3 +1,6 @@
+-- This SQL script retrieves student details for those enrolled in bachelor programmes at a specific university, 
+-- focusing on the propaedeutic phase of their studies.
+
 WITH CTE_INS AS ( -- records of programme enrolment per academic year													
 		SELECT MIN(si.sinh_id) AS sinh_id																				
 			 , MIN(si.ingangsdatum) AS ingangsdatum
