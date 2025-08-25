@@ -9,7 +9,7 @@
 -- ==============================================================================
 
 SELECT
-    contact.[OSIRIS_ID__C] AS [Student_ID],
+    contact.[OSIRIS_ID__C] AS [STUDENTNUMMER],
     COUNT(*) AS [Number_of_Events_Attended],
     COUNT(DISTINCT [event].[TYPE__C]) AS [Number_of_Event_Types],
     STRING_AGG([event].[TYPE__C], ', ') AS [Event_Types_Attended],
@@ -27,9 +27,7 @@ FROM [DM].[F_SAF_EVENT_AANWEZIGE] AS aanwezige
 
 WHERE 1 = 1
     AND contact.[OSIRIS_ID__C] IS NOT NULL
-    AND aanwezige_status.[AANWEZIGE_STATUS] IS NOT NULL
-    -- Filter for specific attendance statuses (adjust as needed)
-    AND aanwezige_status.[AANWEZIGE_STATUS] IN ('Attended')  -- Add/modify status values as needed
+    AND aanwezige_status.[AANWEZIGE_STATUS] ='Attended'
 
 GROUP BY 
     contact.[OSIRIS_ID__C],
@@ -39,6 +37,3 @@ ORDER BY
     contact.[OSIRIS_ID__C]
 
 -- ==============================================================================
-
-
-select top 100 * from [DM].[F_SAF_EVENT_AANWEZIGE]
