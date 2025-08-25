@@ -145,7 +145,7 @@ SELECT
 FROM Credit_results
 WHERE 1 = 1
     AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
-    -- AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
+    AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
     AND [Croho] = '39280'
     
 GROUP BY D_STUDENT_ID,
