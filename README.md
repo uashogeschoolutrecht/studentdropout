@@ -7,15 +7,15 @@ Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://dat
 
 Collaborators: 
 - Anne Leemans (Team Data & Analytics)
-- Harald Breshamer (Analytics domain team Student & Marketing Analytics)
+- Harald Breshamer (Analytics domain team Operational Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
 
 ## Stakeholders & collaborators
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
-- Rick Ikkersheim (Program Manager Student Sucess)
 - Gerwin Hendriks (Team Institutional Research)
-- Justian Knobbout (Analytics domain team Learning Analytics)
+- Herbert Wubben (Team Institutional Research)
+- Hans Kruijer (Analytics domain team Education Analytics)
 
 # Goal
 Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40% each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
@@ -41,43 +41,38 @@ The following students are included in the scope:
 - Between collegeyear 2018 and 2023
 - All HU degrees*
 
-* There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
+*There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
 
 ### Data categories
-Data is gathered in 8 different categories:
+Data is gathered in 9 different categories:
 - 1. Student characteristics at enrollment
     - Gender
-    - Age (feature: age group at enrollment)
+    - Date of birth (feature: age at start degree)
     - Dutch national [yes/no]
     - Postal code (feature: travel distance to university)
+    - Postal country
     - Previous education postal code (feature: previous education distance to university) 
-    - Previous education level
+    - Previous education level/type
     - Is previous education a foreign degree [yes/no]
-    - Previous education profile
-    - Previous education school graduation rate
-    - Previous education average exam grade
     - Exam date (feature: time since previous education graduation)
 - 2. Student orientation
     - Number of events attended
     - Type of events attended
-    - Time before start degree
-    - Timing of event within the year
+    - Date of event (feature: time before start degree)
     - Advice from Choice of Degree Check (SKC)
 - 3. Student application
-    - Number of applications
-    - Date of application
-    - Previous enrollments
-    - Previous enrollment in same domain
+    - Date of application (feature: time between application and start degree)
 - 4. Degree characteristics
     - Name of degree
-    - Entry requirements
     - Binding Study Advice (BSA) [yes/no]
     - Urgent Study Advice (DSA) [yes/no]
 - 5. Enrollment characteristics
     - Collegeyear
-    - Propedeuse obtained [yes/no]
+    - Date of enrollment
+    - Drop-out with degree [yes/no]
+    - Drop-out without degree [yes/no]
+    - Drop-out to other degree within HU (switcher) [yes/no]
     - Drop-out [yes/no]
-    - Degree switch [yes/no] -> ask business
 - 6. Course results
     - Average degree after block A
     - Average degree after block B
@@ -97,9 +92,11 @@ Data is gathered in 8 different categories:
     - perceived stress level
     - perceived energy level
     - perceived pressure
+- 9. Support data
+    - Euclidean distance between all Dutch postal codes and HU 
 
 ### Impossible data categories
-The following data (categories) were identified as possible predictors of student drop-out, either based on literature or subject-matter expert knowledge, but we have not been able to gather the data within the Hogeschool Utrecht context:
+The following data (categories) were identified as possible predictors of student drop-out, either based on literature or subject-matter expert knowledge, but we have not been able to gather (a substantial amount of) data within the Hogeschool Utrecht context:
 - Course attendance. Not available within the HU, and there might be a national legislation forbidding this type of data collection. 
 - Digital course attendance? Is possibly available in Canvas
 
