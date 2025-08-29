@@ -28,14 +28,19 @@ WITH sinh_id AS (
     FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijf
         LEFT JOIN [DM].[D_STUDENT] AS student 
             ON inschrijf.[D_STUDENT_ID] = student.[D_STUDENT_ID]
+	WHERE inschrijf.COLLEGEJAAR >= 2018 and inschrijf.COLLEGEJAAR <= 2023
 ),
 
 -- CTE 2: SAF Event Attendance Data
 -- Aggregates event attendance with academic year derived from registration date
 saf_table AS (
     SELECT
-        -- Derive academic year from registration date (add 1 to get academic year)
-        CAST(LEFT(aanwezige.[D_TIJD_DAG_REGISTRATIE_ID], 4) AS INT) + 1 AS [COLLEGEJAAR], 
+        -- Derive academic year from registration date (add 1 to get academic year depending on month within academic year)
+		CASE 
+			WHEN (aanwezige.[D_TIJD_DAG_REGISTRATIE_ID] / 100) % 100 IN (9, 10, 11, 12)
+				THEN (aanwezige.[D_TIJD_DAG_REGISTRATIE_ID] / 10000) + 1
+			ELSE (aanwezige.[D_TIJD_DAG_REGISTRATIE_ID] / 10000)
+		END AS [COLLEGEJAAR], 
         aanwezige.[D_STUDENT_ID], 
         aanwezige.[D_CROHO_ID],
         contact.[OSIRIS_ID__C] AS [STUDENTNUMMER],
@@ -70,7 +75,6 @@ saf_table AS (
 
 -- Final Results: Event Attendance with Student Enrollment Context
 SELECT 
-    TOP 100
     sinh_id.[SINH_ID],                          -- Student enrollment history identifier
     saf_table.[STUDENTNUMMER],                  -- Student number
     saf_table.[Number_of_Events_Attended],      -- Count of events attended
@@ -84,15 +88,11 @@ FROM saf_table
         AND saf_table.[COLLEGEJAAR] = sinh_id.[COLLEGEJAAR] 
         AND saf_table.[D_CROHO_ID] = sinh_id.[D_CROHO_ID]
 
+WHERE saf_table.COLLEGEJAAR >= 2018 and saf_table.COLLEGEJAAR <= 2023
+
 ORDER BY 
-    sinh_id.[SINH_ID],
     saf_table.[STUDENTNUMMER],
+	sinh_id.[SINH_ID],
     saf_table.[Event_Date]
 
 -- ==============================================================================
-
-
-
-
-
-
