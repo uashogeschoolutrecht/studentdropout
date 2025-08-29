@@ -18,7 +18,7 @@ WITH school_postcode_examdate AS (
         CASE 
             WHEN school.[POSTCODE] IS NOT NULL 
             THEN school.[POSTCODE] 
-            ELSE '0000 AA'  -- Default postal code for missing data
+            ELSE null  -- Default postal code for missing data
         END AS previous_school_postcode
     FROM [ODS].[OSS_STUDENT_VOOROPLEIDING] AS voor
         LEFT JOIN [DM].[D_SCHOOL] AS school
@@ -32,19 +32,21 @@ WITH school_postcode_examdate AS (
 
 -- Final Results: Student Previous Education Summary
 SELECT
-    student.[STUDENTNUMMER],
+	inschrijfhist.SINH_ID,
+	inschrijfhist.COLLEGEJAAR,
+	inschrijfhist.D_TIJD_DAG_INGANG_ID,
     vooropleiding.[TYPE_VOOROPLEIDING] AS [Previous Education Type],
     
     -- Foreign education indicator based on education type
     CASE 
         WHEN vooropleiding.[TYPE_VOOROPLEIDING] = 'BUITENL_SL' 
-        THEN 'yes' 
-        ELSE 'no' 
+        THEN 1
+        ELSE 0
     END AS [Previous Education Foreign],
     
     school_postcode_examdate.[previous_school_postcode] AS [Previous School Postal Code],
     school_postcode_examdate.[SCHOOL] AS [Previous School],
-    school_postcode_examdate.[EINDEXAMENDATUM] AS [Final Exam Date]
+    MAX(school_postcode_examdate.[EINDEXAMENDATUM]) AS [Final Exam Date]
     
 FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijfhist
     LEFT JOIN [DM].[D_VOOROPLEIDING] AS vooropleiding
@@ -53,18 +55,16 @@ FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijfhist
         ON inschrijfhist.[D_STUDENT_ID] = student.[D_STUDENT_ID]
     LEFT JOIN school_postcode_examdate
         ON student.[STUDENTNUMMER] = school_postcode_examdate.[STUDENTNUMMER]
-WHERE vooropleiding.[TYPE_VOOROPLEIDING] = 'BUITENL_SL'         
+WHERE inschrijfhist.COLLEGEJAAR >= 2018 and inschrijfhist.COLLEGEJAAR <= 2023 AND
+-- Only select previous education with an exam date before the start of the HU study
+    TRY_CONVERT(DATE, [EINDEXAMENDATUM]) <= 
+    TRY_CONVERT(DATE, FORMAT([D_TIJD_DAG_INGANG_ID], '0000-00-00'))
 GROUP BY 
-    student.[STUDENTNUMMER], 
+	inschrijfhist.SINH_ID,
+	inschrijfhist.COLLEGEJAAR,
+	inschrijfhist.D_TIJD_DAG_INGANG_ID,
     vooropleiding.[TYPE_VOOROPLEIDING], 
     school_postcode_examdate.[previous_school_postcode], 
-    school_postcode_examdate.[EINDEXAMENDATUM],
     school_postcode_examdate.[SCHOOL]
 
--- ==============================================================================
-
-
-
-
-
-
+-- ==============================================================================  
