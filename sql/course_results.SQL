@@ -143,10 +143,15 @@ SELECT TOP(100000)
     
 FROM Credit_results
 WHERE 1 = 1
-    AND [Study year] >= 2018
-	AND [Study year] < 2024
+    AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
+    AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
+    AND [Croho] = '39280'
     
-GROUP BY SINH_ID,
-    [Enrolled for at least one exam]
-ORDER BY SINH_ID
+GROUP BY D_STUDENT_ID,
+    Ingangsmaand,
+    D_FASE_ID,
+    D_VORM_ID,
+    D_CROHO_ACTUEEL_ID,
+    [enrolled]
+
 -- ==============================================================================
