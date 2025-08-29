@@ -33,8 +33,6 @@ WITH school_postcode_examdate AS (
 -- Final Results: Student Previous Education Summary
 SELECT
 	inschrijfhist.SINH_ID,
-	inschrijfhist.COLLEGEJAAR,
-	inschrijfhist.D_TIJD_DAG_INGANG_ID,
     vooropleiding.[TYPE_VOOROPLEIDING] AS [Previous Education Type],
     
     -- Foreign education indicator based on education type
@@ -61,10 +59,8 @@ WHERE inschrijfhist.COLLEGEJAAR >= 2018 and inschrijfhist.COLLEGEJAAR <= 2023 AN
     TRY_CONVERT(DATE, FORMAT([D_TIJD_DAG_INGANG_ID], '0000-00-00'))
 GROUP BY 
 	inschrijfhist.SINH_ID,
-	inschrijfhist.COLLEGEJAAR,
-	inschrijfhist.D_TIJD_DAG_INGANG_ID,
     vooropleiding.[TYPE_VOOROPLEIDING], 
     school_postcode_examdate.[previous_school_postcode], 
     school_postcode_examdate.[SCHOOL]
 
--- ==============================================================================  
+-- ==============================================================================
