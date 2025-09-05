@@ -113,7 +113,7 @@ The following data (categories) were identified as possible predictors of studen
 The current project phase is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of this project phase. 
 
 ### Data security
-The data gathered in this project is stored at a
+The data gathered in this project is stored at a restricted Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on local machines (HU laptops) of project members. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before, and will be deleted as soon as the project finishes. 
 
 ## Project Organization
 
