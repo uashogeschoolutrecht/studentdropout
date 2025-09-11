@@ -36,7 +36,6 @@ WITH CTE_INS AS ( -- records of programme enrolment per academic year
 SELECT		QUERY_ADDED_STUDENT_DETAILS.sinh_id, 
 			QUERY_ADDED_STUDENT_DETAILS.gender,
 			QUERY_ADDED_STUDENT_DETAILS.Dutch_nationality,
-			QUERY_ADDED_STUDENT_DETAILS.[postal_code_PLACEHOLDER],
 			DATEDIFF(YEAR, date_of_birth, ingangsdatum) - 
 			CASE WHEN MONTH(ingangsdatum) < MONTH(date_of_birth) OR (MONTH(ingangsdatum) = MONTH(date_of_birth) AND DAY(ingangsdatum) < DAY(date_of_birth)) THEN 1 ELSE 0 END
 			[age_start_study]
@@ -45,8 +44,7 @@ FROM(
 			student.GESLACHT [gender], 
 			CONVERT(DATE, FORMAT(CAST(student.GEBOORTEDATUM AS DATE), 'dd-MM-yyyy'), 105)  [date_of_birth], 
 			student.IND_NATIONALITEIT_NL [Dutch_nationality], 
-			student.NATIONALITEIT [nationality],
-			student.POSTCODE [postal_code_PLACEHOLDER]
+			student.NATIONALITEIT [nationality]
 	FROM (							
 		SELECT CI.*																						
 		FROM CTE_INS CI													
