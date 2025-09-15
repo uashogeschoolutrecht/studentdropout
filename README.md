@@ -106,31 +106,36 @@ The following data (categories) were identified as possible predictors of studen
 The current project phase is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of this project phase. 
 
 ### Privacy of data
-The following data can be regarded as sensitive, since -when combined together- it might lead to a student being identifiable:
+In this project we process personal data of HU students. The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
 
+### Legal basis
+
+### Personal information collected
+The following student PI data is collected:
 - gender
-- date of birth
-- degree enrolled in specific college year
+- age at start degree
+- name of degree enrolled in 
+- college year the student enrolled in the degree
 - previous education postal code 4 digits
 - postal code 4 digits
-- previous education
-
-The following information might be regarded as sensitive:
-- previous education level/type
-- advice from Choice of Degree Check (Studie Keuze Check)
+- previous education name
+- previous education level
+- Choice of Degree Check (Studie Keuze Check) advice
 - orientation (number of orientation events and type attended)
-- study results (grade average, average number of credits obtained, potential credits obtained)
-- drop-out of degree
+- degree results (grade average, average number of credits obtained, potential credits obtained)
+- drop-out of degree [yes/no]
 
-To be discussed with privacy officer: would it be better if we calculate `age at start degree` and delete `date of birth` (`date of birth` is only needed to calculate `age at start degree`) before we combine all student data? This would make it a lot less easy to identify a single student. 
+#### Data minimisation
+Prior to data collection, proposed data fields were assessed critically to limit the data gathering scope to data only really necessary to the purpose of processing. For instance, instead of collecting `student date of birth` and combining this data with other data fields, we collected the field seperately and calculated `age at start of degree` and deleted `student date of birth` before combining student data. 
+
+### Purpose limitation
+Student data is collected for the purpose of providing education. Many different factors influence the overall study experience of students, and if some of these factors are negative, it can result in students discontinuing their studies, i.e., dropping out. By gaining more insight into the risk factors that lead to drop-out, HU can better provide the necessary conditions and/or guidance to help students complete their studies. If successful, this project will therefore support the provision of education. 
 
 ### Data security
 
-<img src="references/data_security.png" alt="Data Security" width="600"/>
+<img src="references/data_security.jpg" alt="Data Security" width="600"/>
 
-The data gathered in this project is stored at a restricted Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on local machines (HU laptops) of project members. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before, and will be deleted as soon as the project finishes. 
-
-To be discussed with privacy officer: is processing this data on our local machines (HU laptops) safe enough?
+The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
 
 ## Project Organization
 
