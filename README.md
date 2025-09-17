@@ -45,9 +45,9 @@ The following students are included in the scope:
 *There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
 
 ### Prediction scope
-We aim to perform a 'point-in-time' prediction, as depicted below.
+We aim to perform a 'point-in-time' prediction after half the college year, as depicted below.
 ![alt text](references/prediction_scope.png)
-More specifically, we will be gathering data up until the end of period B of a college year and based on that data we will predict whether the student will be a drop-out at the end of the college year. 
+More specifically, we will be gathering data up until the end of period B of a student's first college year and based on that data we will predict whether the student will be a drop-out at the end of the college year. This time point was chosen such that course result data up and until period B can be included, as well as the freshmen questionnaire that is filled out after the first 100 days of studying (100 dagen monitor). 
 
 ## Data
 Data on student-enrollment granularity is gathered within a certain scope (see below) for eight different categories (see Data categories), and will be used to train and test the ML model to predict student drop-out.
@@ -103,12 +103,13 @@ The following data (categories) were identified as possible predictors of studen
 - Digital course attendance. There might be limited availability within Canvas, but knowledge of this data is low and quality is unknown. 
 
 ## Privacy & ethics
-The current project phase is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of this project phase. 
+The current project is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of the current project. 
 
 ### Privacy of data
-In this project we process personal data of HU students. The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
+In this project we process personal data of HU students. 
 
 ### Legal basis
+The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
 
 ### Personal information collected
 The following student PI data is collected:
