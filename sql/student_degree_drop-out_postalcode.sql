@@ -27,13 +27,26 @@ SELECT
     , c.croho AS degree_code
     , i.D_TIJD_DAG_VERZOEK_INS_ID AS enrollment_date
     , i.D_TIJD_DAG_INGANG_ID AS degree_start_date
-    , i.uitstroom_zonder_diploma AS drop_out_without_degree
-    , i.uitstroom_met_diploma AS drop_out_with_degree
-    , i.opleiding_switch_uit AS drop_out_to_other_degree_in_HU
+	, CASE 
+		WHEN (i.UITSTROOM_ZONDER_DIPLOMA = 1 OR i.UITSTROOM_MET_DIPLOMA = 1) AND IND_PROPEDEUSE_BEHAALD = 1 
+		THEN 1 
+		ELSE 0
+		END AS drop_out_with_propedeuse
+	, CASE
+		WHEN i.UITSTROOM_ZONDER_DIPLOMA = 1 AND IND_PROPEDEUSE_BEHAALD = 0
+		THEN 1
+		ELSE 0
+		END AS drop_out_without_propedeuse
+	, CASE
+		WHEN (i.UITSTROOM_ZONDER_DIPLOMA = 1 OR i.UITSTROOM_MET_DIPLOMA = 1) AND i.OPLEIDING_SWITCH_UIT = 1
+		THEN 1
+		ELSE 0
+		END AS drop_out_to_other_degree_in_HU
+	, i.TIJDELIJKE_UITSTROOM as drop_out_temporary
     , CASE 
         WHEN i.UITSTROOM_ZONDER_DIPLOMA = 1 
-          OR i.OPLEIDING_SWITCH_UIT = 1 
           OR i.UITSTROOM_MET_DIPLOMA = 1 
+		  OR i.TIJDELIJKE_UITSTROOM = 1
         THEN 1 ELSE 0 
       END AS drop_out
     , aa.POSTCODE
