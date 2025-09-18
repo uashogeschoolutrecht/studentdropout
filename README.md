@@ -29,7 +29,7 @@ The intended result of this project phase is thus a ML model that is capable of 
 
 ## Scope
 ### Drop-out definition
-We define 'Freshmen drop-out' using the broader definition: any student that discontinues his/her studies during or directly following the first college year. This includes students switching degrees (internally or externally), discontinuing with a propedeuse and discontinuing without a propedeuse. 
+We define 'Freshmen drop-out' using the broader definition: any student that discontinues his/her studies during or directly following the first college year for more than 1 year. This includes students switching degrees (internally or externally), discontinuing with a propedeuse and discontinuing without a propedeuse. This excludes students temporarily discontinuing their studies (1 year or shorter). 
 
 ### Student scope
 The following students are included in the scope:
@@ -45,9 +45,9 @@ The following students are included in the scope:
 *There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
 
 ### Prediction scope
-We aim to perform a 'point-in-time' prediction, as depicted below.
+We aim to perform a 'point-in-time' prediction after half the college year, as depicted below.
 ![alt text](references/prediction_scope.png)
-More specifically, we will be gathering data up until the end of period B of a college year and based on that data we will predict whether the student will be a drop-out at the end of the college year. 
+More specifically, we will be gathering data up until the end of period B of a student's first college year and based on that data we will predict whether the student will be a drop-out at the end of the college year. This time point was chosen such that course result data up and until period B can be included, as well as the freshmen questionnaire that is filled out after the first 100 days of studying (100 dagen monitor). 
 
 ## Data
 Data on student-enrollment granularity is gathered within a certain scope (see below) for eight different categories (see Data categories), and will be used to train and test the ML model to predict student drop-out.
@@ -103,34 +103,40 @@ The following data (categories) were identified as possible predictors of studen
 - Digital course attendance. There might be limited availability within Canvas, but knowledge of this data is low and quality is unknown. 
 
 ## Privacy & ethics
-The current project phase is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of this project phase. 
+The current project is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of the current project. 
 
 ### Privacy of data
-The following data can be regarded as sensitive, since -when combined together- it might lead to a student being identifiable:
+In this project we process personal data of HU students. 
 
+### Legal basis
+The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
+
+### Personal information collected
+The following student PI data is collected:
 - gender
-- date of birth
-- degree enrolled in specific college year
+- age at start degree
+- name of degree enrolled in 
+- college year the student enrolled in the degree
 - previous education postal code 4 digits
 - postal code 4 digits
-- previous education
-
-The following information might be regarded as sensitive:
-- previous education level/type
-- advice from Choice of Degree Check (Studie Keuze Check)
+- previous education name
+- previous education level
+- Choice of Degree Check (Studie Keuze Check) advice
 - orientation (number of orientation events and type attended)
-- study results (grade average, average number of credits obtained, potential credits obtained)
-- drop-out of degree
+- degree results (grade average, average number of credits obtained, potential credits obtained)
+- drop-out of degree [yes/no]
 
-To be discussed with privacy officer: would it be better if we calculate `age at start degree` and delete `date of birth` (`date of birth` is only needed to calculate `age at start degree`) before we combine all student data? This would make it a lot less easy to identify a single student. 
+#### Data minimisation
+Prior to data collection, proposed data fields were assessed critically to limit the data gathering scope to data only really necessary to the purpose of processing. For instance, instead of collecting `student date of birth` and combining this data with other data fields, we collected the field seperately and calculated `age at start of degree` and deleted `student date of birth` before combining student data. 
+
+### Purpose limitation
+Student data is collected for the purpose of providing education. Many different factors influence the overall study experience of students, and if some of these factors are negative, it can result in students discontinuing their studies, i.e., dropping out. By gaining more insight into the risk factors that lead to drop-out, HU can better provide the necessary conditions and/or guidance to help students complete their studies. If successful, this project will therefore support the provision of education. 
 
 ### Data security
 
-<img src="references/data_security.png" alt="Data Security" width="600"/>
+<img src="references/data_security.jpg" alt="Data Security" width="600"/>
 
-The data gathered in this project is stored at a restricted Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on local machines (HU laptops) of project members. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before, and will be deleted as soon as the project finishes. 
-
-To be discussed with privacy officer: is processing this data on our local machines (HU laptops) safe enough?
+The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
 
 ## Project Organization
 
