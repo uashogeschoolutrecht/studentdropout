@@ -29,7 +29,7 @@ The intended result of this project phase is thus a ML model that is capable of 
 
 ## Scope
 ### Drop-out definition
-We define 'Freshmen drop-out' using the broader definition: any student that discontinues his/her studies during or directly following the first college year. This includes students switching degrees (internally or externally), discontinuing with a propedeuse and discontinuing without a propedeuse. 
+We define 'Freshmen drop-out' using the broader definition: any student that discontinues his/her studies during or directly following the first college year for more than 1 year. This includes students switching degrees (internally or externally), discontinuing with a propedeuse and discontinuing without a propedeuse. This excludes students temporarily discontinuing their studies (1 year or shorter). 
 
 ### Student scope
 The following students are included in the scope:
