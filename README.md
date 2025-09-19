@@ -105,7 +105,7 @@ The following data (categories) were identified as possible predictors of studen
 ## Privacy & ethics
 In this project we combine and process (personal) data of HU students. The current project is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of the current project. 
 
-In the following sections we will discuss which personal information is used, with wich legal basis and for which purpose and we discuss actions taken.
+In the following sections we will discuss which personal information is used, as well as a detailed overview of how the General Data Protection Regulation (GDPR) is taken into account. 
 
 ### Personal information collected
 The following student PI data is collected:
@@ -139,7 +139,10 @@ Prior to data collection, proposed data fields were assessed critically to limit
 
 <img src="references/data_security.jpg" alt="Data Security" width="600"/>
 
-The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
+The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Access is managed by Team Data & Analytics and is reviewed yearly. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. 
+
+#### Data retention
+All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
 
 ### Transparency
 Processing of student data is governed by the HU student privacy statement, which explicitly mentions "perform analysis in order to report on [...] student drop-out" as a purpose of data processing. 
