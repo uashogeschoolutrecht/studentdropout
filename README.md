@@ -157,7 +157,8 @@ Within the HU, small-scale research using a limited dataset has been conducted t
 
 - **Subsidiarity**: Alternative methods, such as relying solely on qualitative assessments by teachers or student self-reporting, have been considered. However, these approaches are often subjective, inconsistent, and reactive rather than proactive. A data-driven model allows for a more objective, scalable, and timely identification of at-risk students. Less intrusive means have been evaluated but are not sufficient to achieve the same level of effectiveness.
 
-
+## Compliance with the EU AI Act
+This project involves the development of a machine learning (i.e.: AI) model to explore the feasibility of predicting freshman student drop-out and to identify general risk factors. The model is used exclusively for internal research purposes and is not deployed in any operational or decision-making context involving individuals. In accordance with Article 2(8) of the EU AI Act, AI systems developed solely for scientific research and development are exempt from the regulation’s requirements, provided they are not placed on the market or put into real-world use. As such, this project falls outside the scope of the EU AI Act.
 
 ## Project Organization
 
