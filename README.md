@@ -103,13 +103,9 @@ The following data (categories) were identified as possible predictors of studen
 - Digital course attendance. There might be limited availability within Canvas, but knowledge of this data is low and quality is unknown. 
 
 ## Privacy & ethics
-The current project is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of the current project. 
+In this project we combine and process (personal) data of HU students. The current project is experimental and aims to answer the question "Can we predict HU freshmen student drop-out at an acceptable level?". The results will be a simple "yes/no" to this research question as well as identifying important risk factors for drop-out. Please not that these risk factors are based on the full population of student data used in the project and not necessarily identify any specific risk factors on a student level, nor how to use this information. For example, the ML model developed in this project might find that that students who live far away from the HU tend to drop-out more often. How to use such information to the advantage of students at the HU, however, entails many different aspects which are not in scope of the current project. 
 
-### Privacy of data
-In this project we process personal data of HU students. 
-
-### Legal basis
-The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
+In the following sections we will discuss which personal information is used, as well as a detailed overview of how the General Data Protection Regulation (GDPR) is taken into account. 
 
 ### Personal information collected
 The following student PI data is collected:
@@ -117,26 +113,51 @@ The following student PI data is collected:
 - age at start degree
 - name of degree enrolled in 
 - college year the student enrolled in the degree
-- previous education postal code 4 digits
 - postal code 4 digits
 - previous education name
 - previous education level
+- previous education postal code 4 digits
+- previous education exam date
 - Choice of Degree Check (Studie Keuze Check) advice
 - orientation (number of orientation events and type attended)
 - degree results (grade average, average number of credits obtained, potential credits obtained)
+- participation in 100 dagen monitor [yes/no]
 - drop-out of degree [yes/no]
 
-#### Data minimisation
-Prior to data collection, proposed data fields were assessed critically to limit the data gathering scope to data only really necessary to the purpose of processing. For instance, instead of collecting `student date of birth` and combining this data with other data fields, we collected the field seperately and calculated `age at start of degree` and deleted `student date of birth` before combining student data. 
+Most of these data fields are not considered PI by itself, but because all fields are combined on student-level they collectively become PI. 
+
+### Legal basis
+The legal basis this project acts upon the process personal data is legitimate interest: we aim to identify key factors of freshman student drop-out to better understand drop-out and to be able to develop and implement interventions to prevent drop-out. 
 
 ### Purpose limitation
 Student data is collected for the purpose of providing education. Many different factors influence the overall study experience of students, and if some of these factors are negative, it can result in students discontinuing their studies, i.e., dropping out. By gaining more insight into the risk factors that lead to drop-out, HU can better provide the necessary conditions and/or guidance to help students complete their studies. If successful, this project will therefore support the provision of education. 
 
-### Data security
+#### Data minimisation
+Prior to data collection, proposed data fields were assessed critically to limit the data gathering scope to data only truly necessary to the purpose of processing. For instance, instead of collecting `student date of birth` and combining this data with other data fields, we collected the field seperately and calculated `age at start of degree` and deleted `student date of birth` before combining student data. 
+
+### Data security & storage limitation
 
 <img src="references/data_security.jpg" alt="Data Security" width="600"/>
 
-The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
+The data gathered in this project is stored at a restricted Team Data & Analytics data share on OneDrive. Access is granted to project members only and is authorized through each member's HU account. Access is managed by Team Data & Analytics and is reviewed yearly. Processing of data and training the machine learning models is performed on SURF Research Cloud. Any output is stored at the same restricted Data & Analytics data share on OneDrive. Data is never stored in any other location than mentioned before. 
+
+#### Data retention
+All data will be deleted as soon as the project finishes, i.e. as soon we conclude whether it is possible to predict the drop-out of HU freshman students. If we would be succesfull, this predictive data might be used further and presented in dashboards during a follow-up project. If so, that follow-up project will have to assess privacy and ethical concerns prior to recollecting and/or processing of the data concerned. 
+
+### Transparency
+Processing of student data is governed by the HU student privacy statement, which explicitly mentions "perform analysis in order to report on [...] student drop-out" as a purpose of data processing. 
+
+### Fairness
+
+Within the HU, small-scale research using a limited dataset has been conducted to identify risk factors associated with freshman student drop-out. While these initial findings provide valuable insights, student drop-out is a multifaceted issue influenced by a wide range of academic, personal, and socio-economic factors. Because of this complexity, a more comprehensive, data-driven approach is necessary to better understand and predict which students may be at risk.
+
+- **Effectiveness**: The processing of personal data is essential to achieve the stated purpose — identifying students at risk of dropping out early enough to offer timely and targeted support. Without access to relevant data, it would be impossible to build predictive models with sufficient accuracy or to validate the effectiveness of interventions. Therefore, the data processing is directly linked to and necessary for achieving the intended goal.
+
+- **Proportionality**: The objective — reducing student drop-out — is of significant importance to both the HU and the students themselves. Early identification can lead to better support, improved student well-being, and higher academic success. While the processing of personal data does involve a degree of privacy infringement, the impact is minimized through strict access controls, data minimization, and anonymization where possible. The benefits to students and the HU are considered to outweigh the limited intrusion into privacy.
+
+- **Subsidiarity**: Alternative methods, such as relying solely on qualitative assessments by teachers or student self-reporting, have been considered. However, these approaches are often subjective, inconsistent, and reactive rather than proactive. A data-driven model allows for a more objective, scalable, and timely identification of at-risk students. Less intrusive means have been evaluated but are not sufficient to achieve the same level of effectiveness.
+
+
 
 ## Project Organization
 
