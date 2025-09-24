@@ -5,8 +5,8 @@
 WITH AddressAtStart AS (
     SELECT 
         s.STUDENTNUMMER,
-        ad.POSTCODE,
-		ad.LAND,
+        CASE WHEN ad.POSTCODE IS NULL or LAND <> 'NL' THEN NULL ELSE LEFT(ad.POSTCODE, 4) END [POSTCODE],
+		CASE WHEN ad.LAND = 'NL' THEN 1 ELSE 0 END [POSTAL_COUNTRY_NL],
         ad.MUTATIE_DATUM,
         i.D_TIJD_DAG_INGANG_ID,
         ROW_NUMBER() OVER (
@@ -27,17 +27,30 @@ SELECT
     , c.croho AS degree_code
     , i.D_TIJD_DAG_VERZOEK_INS_ID AS enrollment_date
     , i.D_TIJD_DAG_INGANG_ID AS degree_start_date
-    , i.uitstroom_zonder_diploma AS drop_out_without_degree
-    , i.uitstroom_met_diploma AS drop_out_with_degree
-    , i.opleiding_switch_uit AS drop_out_to_other_degree_in_HU
+	, CASE 
+		WHEN (i.UITSTROOM_ZONDER_DIPLOMA = 1 OR i.UITSTROOM_MET_DIPLOMA = 1) AND IND_PROPEDEUSE_BEHAALD = 1 
+		THEN 1 
+		ELSE 0
+		END AS drop_out_with_propedeuse
+	, CASE
+		WHEN i.UITSTROOM_ZONDER_DIPLOMA = 1 AND IND_PROPEDEUSE_BEHAALD = 0
+		THEN 1
+		ELSE 0
+		END AS drop_out_without_propedeuse
+	, CASE
+		WHEN (i.UITSTROOM_ZONDER_DIPLOMA = 1 OR i.UITSTROOM_MET_DIPLOMA = 1) AND i.OPLEIDING_SWITCH_UIT = 1
+		THEN 1
+		ELSE 0
+		END AS drop_out_to_other_degree_in_HU
+	, i.TIJDELIJKE_UITSTROOM as drop_out_temporary
     , CASE 
         WHEN i.UITSTROOM_ZONDER_DIPLOMA = 1 
-          OR i.OPLEIDING_SWITCH_UIT = 1 
           OR i.UITSTROOM_MET_DIPLOMA = 1 
+		  OR i.TIJDELIJKE_UITSTROOM = 1
         THEN 1 ELSE 0 
       END AS drop_out
     , aa.POSTCODE
-	, aa.LAND
+	, aa.[POSTAL_COUNTRY_NL]
 FROM [DM].[F_STUDENT_INSCHRIJFHIST] i
 LEFT JOIN DM.VW_DM_D_OPLEIDING o ON i.d_opleiding_id = o.d_opleiding_id
 LEFT JOIN DM.VW_DM_D_VORM v ON i.d_vorm_id = v.d_vorm_id

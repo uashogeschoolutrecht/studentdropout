@@ -17,8 +17,7 @@ WITH school_postcode_examdate AS (
         school.[SCHOOL],
         CASE 
             WHEN school.[POSTCODE] IS NOT NULL 
-            THEN school.[POSTCODE] 
-            ELSE null  -- Default postal code for missing data
+            THEN LEFT(school.[POSTCODE], 4)  -- Adjusted to first 4 characters of postal code
         END AS previous_school_postcode
     FROM [ODS].[OSS_STUDENT_VOOROPLEIDING] AS voor
         LEFT JOIN [DM].[D_SCHOOL] AS school
