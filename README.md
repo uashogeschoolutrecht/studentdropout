@@ -5,7 +5,7 @@
 
 Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
 
-## Hands-on Collaborators: 
+## Hands-on collaborators: 
 - Anne Leemans (Team Data & Analytics)
 - Harald Breshamer (Analytics domain team Operational Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
@@ -13,10 +13,14 @@ Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://dat
 ## Other collaborators / people involved:
 - Timme Stols (Team Digitale Leeromgeving)
 - Klaske de Hoop (Team Data & Analytics)
-- Gerwin Hendriks (Team Institutional Research)
+- Jan Willigenburg (Team Data & Analytics)
+- Gerwin Hendriks (HU workgroup Student Drop-out)
 - Herbert Wubben (Team Institutional Research)
-- Hans Kruijer (Analytics domain team Education Analytics)
+- Hans Kruijer (Team Education Analytics)
 - Lisanne Reurings (Privacy officer Dienst FC&A)
+- Jorno van Gelder (Team Learning Analytics)
+- Jules Warps (HU workgroup Student Drop-out)
+- Annemarijn Verstand (HU workgroup Student Drop-out)
 
 # Goal
 Current drop-out rates of freshman students at the Hogeschool Utrecht averages 40%+ each year. We aim to create a ML-based tool that identifies freshman students at risk of dropping out early in their academic journey at Hogeschool Utrecht. This allows for timely interventions that are tailored to individual needs, thereby enhancing student success and promoting equity in educational outcomes.
