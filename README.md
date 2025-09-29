@@ -3,6 +3,10 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
+<div style="text-align: left;">
+    <img src="references/logo.png" alt="Predicting Student Drop-Out logo" width="600"/>
+</div>
+
 Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
 
 ## Hands-on collaborators: 
