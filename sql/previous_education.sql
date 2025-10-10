@@ -32,15 +32,7 @@ WITH school_postcode_examdate AS (
 -- Final Results: Student Previous Education Summary
 SELECT
 	inschrijfhist.SINH_ID,
-    vooropleiding.[TYPE_VOOROPLEIDING] AS [Previous Education Type],
-    
-    -- Foreign education indicator based on education type
-    CASE 
-        WHEN vooropleiding.[TYPE_VOOROPLEIDING] = 'BUITENL_SL' 
-        THEN 1
-        ELSE 0
-    END AS [Previous Education Foreign],
-    
+    vooropleiding.[TYPE_VOOROPLEIDING] AS [Previous Education Type], 
     school_postcode_examdate.[previous_school_postcode] AS [Previous School Postal Code],
     school_postcode_examdate.[SCHOOL] AS [Previous School],
     MAX(school_postcode_examdate.[EINDEXAMENDATUM]) AS [Final Exam Date]
