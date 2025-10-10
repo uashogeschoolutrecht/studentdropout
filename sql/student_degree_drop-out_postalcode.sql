@@ -27,6 +27,7 @@ SELECT
     , c.croho AS degree_code
     , i.D_TIJD_DAG_VERZOEK_INS_ID AS enrollment_date
     , i.D_TIJD_DAG_INGANG_ID AS degree_start_date
+	, i.D_TIJD_DAG_AFLOOP_ID AS degree_end_date
 	, CASE 
 		WHEN (i.UITSTROOM_ZONDER_DIPLOMA = 1 OR i.UITSTROOM_MET_DIPLOMA = 1) AND IND_PROPEDEUSE_BEHAALD = 1 
 		THEN 1 
