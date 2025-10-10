@@ -14,7 +14,6 @@ WITH school_postcode_examdate AS (
     SELECT 
         voor.[STUDENTNUMMER],
         voor.[EINDEXAMENDATUM],
-        school.[SCHOOL],
         CASE 
             WHEN school.[POSTCODE] IS NOT NULL 
             THEN LEFT(school.[POSTCODE], 4)  -- Adjusted to first 4 characters of postal code
@@ -25,7 +24,6 @@ WITH school_postcode_examdate AS (
     GROUP BY 
         voor.[STUDENTNUMMER],
         voor.[EINDEXAMENDATUM],
-        school.[SCHOOL],
         school.[POSTCODE]  
 )
 
@@ -34,7 +32,6 @@ SELECT
 	inschrijfhist.SINH_ID,
     vooropleiding.[TYPE_VOOROPLEIDING] AS [Previous Education Type], 
     school_postcode_examdate.[previous_school_postcode] AS [Previous School Postal Code],
-    school_postcode_examdate.[SCHOOL] AS [Previous School],
     MAX(school_postcode_examdate.[EINDEXAMENDATUM]) AS [Final Exam Date]
     
 FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijfhist
@@ -51,7 +48,6 @@ WHERE inschrijfhist.COLLEGEJAAR >= 2018 and inschrijfhist.COLLEGEJAAR <= 2023 AN
 GROUP BY 
 	inschrijfhist.SINH_ID,
     vooropleiding.[TYPE_VOOROPLEIDING], 
-    school_postcode_examdate.[previous_school_postcode], 
-    school_postcode_examdate.[SCHOOL]
+    school_postcode_examdate.[previous_school_postcode]
 
 -- ==============================================================================
