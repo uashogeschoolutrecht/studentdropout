@@ -1,6 +1,12 @@
 # Data
 data/
 
+# virtual environment
+venv_dropout
+
+#Jupyter start up
+start_jupyter.sh
+
 # Mac OS-specific storage files
 .DS_Store
 
