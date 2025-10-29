@@ -73,19 +73,28 @@ In addition to the gathered data, new data is created by combining data (feature
     - Postal code, first 4 digits only (`feature`: travel distance to university)
     - Postal country (`feature`: student living abroad at time of enrollment [yes/no])
     - Previous education postal code (`feature`: previous education distance to university) 
-    - Previous education level/type
-    - Is previous education a foreign degree [yes/no]
-    - Exam date (`feature`: time since previous education graduation)
+    - Previous education type
+    - `feature` Is previous education a foreign degree [yes/no]
+    - Final exam date (`feature`: gap between previous education exam and start degree)
 - 2. Student orientation
-    - Number of events attended
-    - Type of events attended
-    - Date of event (`feature`: time between orientation and start degree)
+    - `feature`: Number of events attended
+    - Type of events attended (`feature`: different types of events attended)
+    - `feature`: Has attended an Open Day [yes/no]
+    - `feature`: Has attended Proefstuderen [yes/no]
+    - Date of event
+    - `feature`: time between first orientation and start degree
+    - `feature`: time between last orientation and start degree
+    - `feature`: is orientation data available for student [yes/no]
     - Advice from Choice of Degree Check (SKC)
+    - Date of SKC (`feature`: gap between SKC and start degree)
     - `feature`: Is SKC advice available for student [yes/no]
 - 3. Degree characteristics
     - Name of degree
-    - Binding Study Advice (BSA) [yes/no]
-    - Urgent Study Advice (DSA) [yes/no]
+    - Code of degree
+    - Number of degree
+    - Institute
+    - Urgent Study Advice (DSA) [yes/no] - if no the degree still has BSA.
+    - Numerus Fixus [yes/no]
 - 4. Enrollment characteristics
     - Collegeyear
     - Date of enrollment (`feature`: time between enrollment and start degree)
@@ -93,17 +102,25 @@ In addition to the gathered data, new data is created by combining data (feature
     - Drop-out without degree [yes/no]
     - Drop-out to other degree within HU (switcher) [yes/no]
     - Drop-out [yes/no]
+    - Degree end date
 - 5. Course results
+    - Enrolled for at least one exam [yes/no]
     - Average degree after block A
-    - Average degree after block B
     - Total number of credits after block A
     - Potential number of credits after block A
+    - Percentage of credits after block A
+    - Average degree after block B
     - Total number of credits after block B
     - Potential number of credits after blok B
+    - Percentage of credits after blok B
 - 6. Student motivation & involvement & wellness (100 dagen monitor)
     - `feature`: has 100 dagen monitor filled out [yes/no]
 - 0. Support data
     - Euclidean distance between all Dutch 4-digit postal codes and HU 
+
+### Exclusion of data
+- Any student with a gender different from M or F. 
+- Any student with an early degree end date (to be determined what date specifically). 
 
 ### Impossible data categories
 The following data (categories) were identified as possible predictors of student drop-out, either based on literature or subject-matter expert knowledge, but we have not been able to gather (a substantial amount of) data within the Hogeschool Utrecht context, and will thus be excluded of current project phase:
