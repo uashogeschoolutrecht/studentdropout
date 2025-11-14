@@ -2,8 +2,8 @@
 -- focusing on the propaedeutic phase of their studies.
 
 WITH CTE_INS AS ( -- records of programme enrolment per academic year													
-		SELECT MIN(si.sinh_id) AS sinh_id																				
-			 , MIN(si.ingangsdatum) AS ingangsdatum
+		SELECT si.sinh_id AS sinh_id																				
+			 , si.ingangsdatum AS ingangsdatum
 			 , FASE_CD [fase]
 			 , D_STUDENT_ID
 		FROM (													
@@ -27,10 +27,7 @@ WITH CTE_INS AS ( -- records of programme enrolment per academic year
 					AND 2023							-- not including running year
 				AND collegejaar = cohort_opleiding		-- first year students						
 				) SI		
-		GROUP BY 
-		FASE_CD
-		, D_STUDENT_ID
-)									
+				)									
 
 -- Final selection with student details
 SELECT		QUERY_ADDED_STUDENT_DETAILS.sinh_id, 
