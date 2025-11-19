@@ -1,7 +1,8 @@
--- This SQL script retrieves student details for those enrolled in bachelor programmes at a specific university, 
--- focusing on the propaedeutic phase of their studies.
+-- This query retrieves student details for first-year students enrolled in full-time bachelor programmes
+-- during the propaedeutic phase, covering academic years 2018-2023 (excluding the current running year).
+-- Exchange students and minor students are excluded from the results.
 
-WITH CTE_INS AS ( -- records of programme enrolment per academic year													
+WITH CTE_INS AS ( -- CTE: Programme enrollment records per academic year													
 		SELECT si.sinh_id AS sinh_id																				
 			 , si.ingangsdatum AS ingangsdatum
 			 , FASE_CD [fase]
@@ -18,34 +19,38 @@ WITH CTE_INS AS ( -- records of programme enrolment per academic year
 				JOIN DM.VW_DM_D_BEKOSTIGING b ON i.d_bekostiging_id = b.d_bekostiging_id								
 				JOIN DM.VW_DM_D_CROHO c ON i.d_croho_id = c.d_croho_id								
 				JOIN DM.VW_DM_D_ACTIEFCODE ac ON i.d_actiefcode_opleiding_id = ac.d_actiefcode_id
-			WHERE ac.actiefcode = '4'					-- enrolled students				
-				AND c.croho LIKE '3%'					-- bachelor programmes			
-				AND b.bekostiging NOT IN ('U')			-- exclude exchange students					
-				AND o.opleiding NOT LIKE 'K%'			-- excude minor students					
-				AND v.vorm_cd = 'V'						-- fulltime programmes		
-				AND collegejaar BETWEEN 2018			-- scope query					
-					AND 2023							-- not including running year
-				AND collegejaar = cohort_opleiding		-- first year students						
+			WHERE ac.actiefcode = '4'					-- Filter: Enrolled students only				
+				AND c.croho LIKE '3%'					-- Filter: Bachelor programmes (CROHO codes starting with 3)			
+				AND b.bekostiging NOT IN ('U')			-- Filter: Exclude exchange students					
+				AND o.opleiding NOT LIKE 'K%'			-- Filter: Exclude minor students					
+				AND v.vorm_cd = 'V'						-- Filter: Full-time programmes only		
+				AND collegejaar BETWEEN 2018			-- Filter: Academic years 2018-2023					
+					AND 2023							-- (Excludes current running year)
+				AND collegejaar = cohort_opleiding		-- Filter: First-year students only						
 				) SI		
 				)									
 
--- Final selection with student details
+-- Final selection: Student details with calculated age at study start
 SELECT		QUERY_ADDED_STUDENT_DETAILS.sinh_id, 
+			QUERY_ADDED_STUDENT_DETAILS.student_number,
 			QUERY_ADDED_STUDENT_DETAILS.gender,
 			QUERY_ADDED_STUDENT_DETAILS.Dutch_nationality,
+			-- Calculate age at study start date, accounting for whether birthday has occurred
 			DATEDIFF(YEAR, date_of_birth, ingangsdatum) - 
 			CASE WHEN MONTH(ingangsdatum) < MONTH(date_of_birth) OR (MONTH(ingangsdatum) = MONTH(date_of_birth) AND DAY(ingangsdatum) < DAY(date_of_birth)) THEN 1 ELSE 0 END
 			[age_start_study]
 FROM(
+	-- Subquery: Join enrollment data with student demographic information
 	SELECT	BASISQUERY.*, 
 			student.GESLACHT [gender], 
 			CONVERT(DATE, FORMAT(CAST(student.GEBOORTEDATUM AS DATE), 'dd-MM-yyyy'), 105)  [date_of_birth], 
 			student.IND_NATIONALITEIT_NL [Dutch_nationality], 
-			student.NATIONALITEIT [nationality]
+			student.NATIONALITEIT [nationality],
+			student.STUDENTNUMMER [student_number]
 	FROM (							
 		SELECT CI.*																						
 		FROM CTE_INS CI													
-		WHERE fase = 'D' -- propaedeutic phase
+		WHERE fase = 'D' -- Filter: Propaedeutic phase (fase code 'D')
 		) BASISQUERY
 	LEFT JOIN DM.D_STUDENT student ON BASISQUERY.D_STUDENT_ID = student.D_STUDENT_ID
 	) QUERY_ADDED_STUDENT_DETAILS
