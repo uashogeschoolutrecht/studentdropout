@@ -47,7 +47,7 @@ The following students are included in the scope:
 - Enrolled
 - Not a minor/exchange
 - Start period = 1st of september
-- Between collegeyear 2018 and 2023
+- Between collegeyear 2021 and 2023
 - All HU degrees*
 
 *There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
@@ -68,6 +68,7 @@ Data is gathered in 6 different categories.
 In addition to the gathered data, new data is created by combining data (feature engineering). The gathered data and features are listed below:
 - 1. Student characteristics at enrollment
     - Gender
+    - Student number
     - Date of birth (`feature`: age at start degree)
     - Dutch national [yes/no]
     - Postal code, first 4 digits only (`feature`: travel distance to university)
@@ -92,7 +93,6 @@ In addition to the gathered data, new data is created by combining data (feature
     - Name of degree
     - Code of degree
     - Number of degree
-    - Institute
     - Urgent Study Advice (DSA) [yes/no] - if no the degree still has BSA.
     - Numerus Fixus [yes/no]
 - 4. Enrollment characteristics
