@@ -119,3 +119,15 @@ While recall increases for these models, the accuracy seems to decrease slightly
 
  #### Suggested next steps
  Adjust for class imbalance in the neural network, then choose best model. Proceed with tuning hyperparameters. 
+
+ ## Jan-21: Neural network balancing
+ Implemented SMOTE (Synthetis Minority Oversampling Technique) to handle class imbalance for neural networks [Ref](https://mljourney.com/handling-class-imbalance-with-smote-and-other-techniques/). This method creates new, synthetic minority-class samples by interpolating between real minority samples that are close to each other. 
+
+ ### Results
+ The recall of the neural network increased somewhat (previous recall was 0.449):
+
+![alt text](image.png)
+
+However, recall is still quite low compared to the other models (0.68-0.69). From literature it seems that neural networks might not be the best choice for tabular data nor for imbalanced classification problems, so it might be better to focus on the other models for further hyperparameter tuning.
+
+Note: trying out a simpler neural network architecture (less layers, less neurons) did not improve recall.
