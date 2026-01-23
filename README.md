@@ -67,7 +67,9 @@ We aim to create a binary classification model that predicts whether a freshman 
 
 ### Prediction scope
 We aim to perform a 'point-in-time' prediction after half the college year, as depicted below.
+
 ![alt text](references/prediction_scope.png)
+
 More specifically, we will be gathering data up until the end of period A of a student's first college year and based on that data we will predict whether the student will be a drop-out at the end of the college year. This time point was chosen such that course result data up and until period A can be included, as well as the freshmen questionnaire that is filled out after the first 100 days of studying (100 dagen monitor). 
 
 ## Data
@@ -76,7 +78,7 @@ Data on student-enrollment granularity is gathered within a certain scope (see b
 ### Data categories
 Data is gathered in 5 different categories. 
 
-<img src="references/data_overview.png" alt="Data Overview" width="600"/>
+<img src="references/data_overview2.png" alt="Data Overview" width="600"/>
 
 In addition to the gathered data, new data is created by combining data (feature engineering). The gathered data and features are listed below:
 - 1. Student characteristics at enrollment
