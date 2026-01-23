@@ -8,11 +8,13 @@
 </div>
 
 Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://datasciencepool.hu.nl/))
+Product Owner = Rins Rutgers ([Data Science Pool])
 
 ## Hands-on collaborators: 
 - Anne Leemans (Team Data & Analytics)
 - Harald Breshamer (Analytics domain team Operational Analytics)
 - Bram Versteeg (Analytics domain team Student & Marketing Analytics)
+- Richard Felius (Data Science Pool)
 
 ## Other collaborators / people involved:
 - Timme Stols (Team Digitale Leeromgeving)
@@ -22,6 +24,7 @@ Project Lead = Bouba Ismalia & Fraukje Coopmans ([Data Science Pool](https://dat
 - Herbert Wubben (Team Institutional Research)
 - Hans Kruijer (Team Education Analytics)
 - Lisanne Reurings (Privacy officer Dienst FC&A)
+- Roos Roodnat (Functionaris Gegevensbescherming HU)
 - Jorno van Gelder (Team Learning Analytics)
 - Jules Warps (HU workgroup Student Drop-out)
 - Annemarijn Verstand (HU workgroup Student Drop-out)
@@ -53,6 +56,14 @@ The following students are included in the scope:
 - All HU degrees*
 
 *There might be some degrees that have outlier-behavior with respect to some data categories. E.g. (1) it is common for law student to finish the first year and then drop out to pursue another degree, or (2) some degrees might not have exams in the first semester but only internships or project-style education. Exploratory data analysis is needed to identify these degrees and determine whether they should be included. 
+
+### Machine learning scope
+We aim to create a binary classification model that predicts whether a freshman student will drop-out (yes/no) based on data gathered up until half the college year (end of period A). For this purpose, we will be exploring the following ML algorithms:
+- logistic regression, 
+- decision trees, 
+- random forests, 
+- gradient boosting, and
+- neural networks.
 
 ### Prediction scope
 We aim to perform a 'point-in-time' prediction after half the college year, as depicted below.
