@@ -52,14 +52,16 @@ jobs:
 
             if $SKIP; then
               echo "⏭  Skipping protected branch: $branch"
-              ((SKIPPED++))
+              ((SKIPPED++)) || true
               continue
             fi
 
             echo "🗑  Deleting merged branch: $branch"
             git push origin --delete "$branch" || echo "   ⚠  Could not delete $branch"
-            ((DELETED++))
+            ((DELETED++)) || true
           done
 
           echo "---"
           echo "✅ Done. Deleted $DELETED branch(es), skipped $SKIPPED protected branch(es)."
+
+          exit 0
