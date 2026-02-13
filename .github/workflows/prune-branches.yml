@@ -1,0 +1,65 @@
+name: Prune stale branches
+
+on:
+  # Runs every 4 weeks (1st and 15th-ish of each month covers ~4 week cadence)
+  schedule:
+    - cron: "0 9 1 */1 *"   # 09:00 UTC on the 1st of every month (≈ every 4 weeks)
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write      # needed to delete remote branches
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+
+    env:
+      PROTECTED_BRANCHES: "main develop"   # branches that must never be deleted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # full history so we can detect merged branches
+
+      - name: Prune stale remote tracking refs
+        run: git remote prune origin
+
+      - name: Delete merged remote branches
+        run: |
+          echo "Protected branches: $PROTECTED_BRANCHES"
+          echo "---"
+
+          # Get all remote branches that are fully merged into main
+          MERGED=$(git branch -r --merged origin/main | sed 's|origin/||' | xargs)
+
+          DELETED=0
+          SKIPPED=0
+
+          for branch in $MERGED; do
+            # Skip HEAD pointer
+            [[ "$branch" == *"->"* ]] && continue
+
+            # Skip protected branches
+            SKIP=false
+            for protected in $PROTECTED_BRANCHES; do
+              if [[ "$branch" == "$protected" ]]; then
+                SKIP=true
+                break
+              fi
+            done
+
+            if $SKIP; then
+              echo "⏭  Skipping protected branch: $branch"
+              ((SKIPPED++))
+              continue
+            fi
+
+            echo "🗑  Deleting merged branch: $branch"
+            git push origin --delete "$branch" || echo "   ⚠  Could not delete $branch"
+            ((DELETED++))
+          done
+
+          echo "---"
+          echo "✅ Done. Deleted $DELETED branch(es), skipped $SKIPPED protected branch(es)."
