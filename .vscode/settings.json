@@ -1,5 +1,4 @@
 {
-  "python.defaultInterpreterPath": "/home/bismalia/studentdropout/venv_dropout/bin/python",
   "python.terminal.activateEnvironment": true,
   "jupyter.jupyterServerType": "local"
 }
