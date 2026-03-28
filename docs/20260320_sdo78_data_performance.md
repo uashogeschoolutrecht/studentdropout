@@ -4,7 +4,7 @@
 |---|---|
 | **Author** | Fraukje Coopmans & Bouba Ismalia |
 | **Date** | 2026-03-20 |
-| **Status** | In Progress |
+| **Status** | Finished |
 
 ---
 
