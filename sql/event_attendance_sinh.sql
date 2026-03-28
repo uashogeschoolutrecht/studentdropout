@@ -29,7 +29,7 @@ WITH sinh_id AS (
     FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijf
         LEFT JOIN [DM].[D_STUDENT] AS student 
             ON inschrijf.[D_STUDENT_ID] = student.[D_STUDENT_ID]
-	WHERE inschrijf.COLLEGEJAAR >= 2018 and inschrijf.COLLEGEJAAR <= 2023
+	WHERE inschrijf.COLLEGEJAAR >= 2018 and inschrijf.COLLEGEJAAR <= 2024
 ),
 --- CTE 2: Event Types Data
 --- Categorizes events into defined types for analysis
@@ -143,7 +143,7 @@ FROM saf_table
         AND saf_table.[COLLEGEJAAR] = sinh_id.[COLLEGEJAAR] 
         AND saf_table.[D_CROHO_ID] = sinh_id.[D_CROHO_ID]
 
-WHERE saf_table.COLLEGEJAAR >= 2018 and saf_table.COLLEGEJAAR <= 2023
+WHERE saf_table.COLLEGEJAAR >= 2018 and saf_table.COLLEGEJAAR <= 2024
 GROUP BY 
     sinh_id.[SINH_ID],
     saf_table.[STUDENTNUMMER]

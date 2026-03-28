@@ -1,5 +1,5 @@
 -- This query retrieves student details for first-year students enrolled in full-time bachelor programmes
--- during the propaedeutic phase, covering academic years 2018-2023 (excluding the current running year).
+-- during the propaedeutic phase, covering academic years 2018-2024 (excluding the current running year).
 -- Exchange students and minor students are excluded from the results.
 
 WITH CTE_INS AS ( -- CTE: Programme enrollment records per academic year													
@@ -24,8 +24,8 @@ WITH CTE_INS AS ( -- CTE: Programme enrollment records per academic year
 				AND b.bekostiging NOT IN ('U')			-- Filter: Exclude exchange students					
 				AND o.opleiding NOT LIKE 'K%'			-- Filter: Exclude minor students					
 				AND v.vorm_cd = 'V'						-- Filter: Full-time programmes only		
-				AND collegejaar BETWEEN 2018			-- Filter: Academic years 2018-2023					
-					AND 2023							-- (Excludes current running year)
+				AND collegejaar BETWEEN 2018			-- Filter: Academic years 2018-2024					
+					AND 2024							-- (Excludes current running year)
 				AND collegejaar = cohort_opleiding		-- Filter: First-year students only						
 				) SI		
 				)									

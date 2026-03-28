@@ -36,6 +36,9 @@ WITH inschrijvingen AS (
             ON inschrijvingen.[D_ACTIEFCODE_OPLEIDING_ID] = actiefcode_opleiding.[D_ACTIEFCODE_ID]
         LEFT JOIN [DM].[VW_DM_D_TIJD_DAG] AS tijd_dag_ingang 
             ON inschrijvingen.[D_TIJD_DAG_INGANG_ID] = tijd_dag_ingang.[D_TIJD_DAG_ID]
+    WHERE 1 = 1
+        AND inschrijvingen.[COLLEGEJAAR] >= 2018
+        AND inschrijvingen.[COLLEGEJAAR] < 2025         --
 ),
 
 -- CTE 2: Test Results Data
@@ -71,6 +74,8 @@ toets_resultaten AS (
         AND (blok.[BLOK_LETTER] = 'A' OR blok.[BLOK_LETTER] = 'B')  -- Only Block A and B
         AND toets_resultaten.[COLLEGEJAAR] = toets_resultaten.[COHORT_OPLEIDING]  -- First year students
         AND toets_resultaten.[TOETS_POGING_NR] = '1'  -- First attempt only
+        AND toets_resultaten.[COLLEGEJAAR] >= 2018
+        AND toets_resultaten.[COLLEGEJAAR] < 2025         
 ),
 
 -- CTE 3: Credit Results Calculation
@@ -143,15 +148,16 @@ SELECT TOP(100000)
     
 FROM Credit_results
 WHERE 1 = 1
-    AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
-    AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
-    AND [Croho] = '39280'
+    --AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
+    --AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
+    --AND [Croho] = '39280'
     
 GROUP BY D_STUDENT_ID,
     Ingangsmaand,
     D_FASE_ID,
     D_VORM_ID,
     D_CROHO_ACTUEEL_ID,
-    [enrolled]
+    [Enrolled for at least one exam],
+    SINH_ID
 
 -- ==============================================================================

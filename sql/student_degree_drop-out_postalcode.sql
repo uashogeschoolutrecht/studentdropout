@@ -11,7 +11,7 @@
  * 
  * Scope:
  * ------
- * - Academic years: 2018-2023
+ * - Academic years: 2018-2024
  * - Student type: First-year bachelor students
  * - Program type: Full-time (Voltijd) programs
  * - Phase: Propaedeutic (first year)
@@ -113,6 +113,7 @@ WITH AddressAtStart AS (
     LEFT JOIN ODS.OSS_H_S_ADRES ad ON ad.STUDENTNUMMER = s.STUDENTNUMMER
     WHERE ad.ADRESTYPE = 'ST'
       AND ad.MUTATIE_DATUM <= CAST(CONVERT(VARCHAR, i.D_TIJD_DAG_INGANG_ID) AS DATE)
+      AND i.COLLEGEJAAR BETWEEN 2018 AND 2024
 ), 
 /*
  * ============================================================================
@@ -195,7 +196,7 @@ WHERE ODS_ACTUEEL_IND = 1                                       -- Only current/
  * - Excludes exchange students (bekostiging <> 'U')
  * - Excludes minor programs (opleiding not starting with 'K')
  * - Full-time programs (vorm_cd = 'V')
- * - Academic years 2018-2023
+ * - Academic years 2018-2024
  * - First-year students (collegejaar = cohort_opleiding)
  * - Propaedeutic phase (fase_cd = 'D')
  * - September 1st start dates (D_TIJD_DAG_INGANG_ID % 10000 = 901)
@@ -273,7 +274,7 @@ WHERE ac.actiefcode = '4'                       -- Only enrolled students (activ
   AND b.bekostiging NOT IN ('U')                -- Exclude exchange/visiting students
   AND o.opleiding NOT LIKE 'K%'                 -- Exclude minor programs (codes starting with K)
   AND v.vorm_cd = 'V'                           -- Only full-time programs (Voltijd)
-  AND collegejaar BETWEEN 2018 AND 2023         -- Academic years 2018-2023
+  AND collegejaar BETWEEN 2018 AND 2024         -- Academic years 2018-2024
   AND collegejaar = cohort_opleiding            -- Only first-year students (enrollment year = cohort year)
   AND fase_cd = 'D'                             -- Only propaedeutic phase (first year)
   AND i.D_TIJD_DAG_INGANG_ID % 10000 = 901      -- Only September 1st start dates (date ID ending in 0901)

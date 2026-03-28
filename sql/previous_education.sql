@@ -41,7 +41,7 @@ FROM [DM].[F_STUDENT_INSCHRIJFHIST] AS inschrijfhist
         ON inschrijfhist.[D_STUDENT_ID] = student.[D_STUDENT_ID]
     LEFT JOIN school_postcode_examdate
         ON student.[STUDENTNUMMER] = school_postcode_examdate.[STUDENTNUMMER]
-WHERE inschrijfhist.COLLEGEJAAR >= 2018 and inschrijfhist.COLLEGEJAAR <= 2023 AND
+WHERE inschrijfhist.COLLEGEJAAR >= 2018 and inschrijfhist.COLLEGEJAAR <= 2024 AND
 -- Only select previous education with an exam date before the start of the HU study
     TRY_CONVERT(DATE, [EINDEXAMENDATUM]) <= 
     TRY_CONVERT(DATE, FORMAT([D_TIJD_DAG_INGANG_ID], '0000-00-00'))
