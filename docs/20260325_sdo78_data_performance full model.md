@@ -1,66 +1,70 @@
-# Investigating 100 Dagen Monitor Data on Full Predicting Student Drop-out Model Performance
+# Investigating 100 Dagen Monitor Data on Full Student Drop-out Model Performance
 
 | | |
 |---|---|
-| **Author** | Fraukje Coopmans & Bouba Ismalia |
-| **Date**   | 2026-03-25 |
-| **Status** | In Progress |
+| **Author** | Fraukje Coopmans & Bouba Ismalia (updated with final CV-10 validation) |
+| **Date** | 2026-04-09 |
+| **Status** | Final |
+
 ---
 
-## 1. Problem statement
-In a previous study we have shown that adding 100 Dagen Monitor data to the student drop-out prediction model can improve the performance of the model. However, this was only tested on a subset of the data: students who participated in the 100 Dagen Monitor. In this experiment, we will investigate whether adding 100 Dagen Monitor data to the entire dataset can improve the performance of the ful student drop-out prediction model.
+## 1. Problem Statement and Hypothesis
+Earlier work showed gains from 100 Dagen Monitor (SDO78) data on a responder-only subset. This study tests whether adding SDO78 features improves the full student drop-out model. The hypothesis is that SDO78 data improves PR-AUC, ROC-AUC, Recall, and F1.
 
-## 2. Hypothesis
-Student behavior data from the 100 Dagen Monitor significantly improves the performance of the student drop-out prediction model, leading to higher recall, precision, and F1-score compared to the current model without this data.
+## 2. Data and Method
+- SDO78 data from 2021-2023 was merged with student drop-out data.
+- 12 questionnaire features were selected (consistent across years), including aggregated topic scores.
+- Response type was added (complete, partial, non-responder), and non-responders were retained via imputation.
+- Pipeline settings were restored to production baseline: Stratified CV-10 with 5 repeats and low-frequency threshold 100.
+- Models were compared in notebook 11; XGBoost was selected and tuned in notebook 12 (Bayesian optimization, 30 iterations, PR-AUC objective).
 
-## 3. Background & Context
-The 100 Dagen Monitor is a questionnaire that collects data on various aspects of student behavior, including engagement, support, stress, and motivation. Based on literature adding student behavior data, such as collecting in the 100 Dagen Monitor, can potentially improve a model's ability to predict drop-out cases. 
+We used the following selected SDO78 questions:
+![Selected SDO78 questions](img/sdo78_questions_selected.png)
 
-## 4. Data
-The 100 Dagen Monitor datasets contain 2 seperate files for each year, one containing the questionnaire responses and one containing the corresponding student information. The questionnaire consists of about 100 questions (depending on the year). 
+## 3. Data Quality Summary
+- SDO78 records before match filtering: 4,233
+- Matched and retained: 3,940 (93.1%)
+- Dropped unmatched: 293 (6.9%)
 
-We have manually selected the following subset of questions from the 100 Dagen Monitor:
-![alt text](img/sdo78_questions_selected.png)
+Scale reliability:
+- Support_Avg (HU27_01-03): alpha = 0.470 (low, retained for MVP)
+- Belonging_Avg (HU28_01-03): alpha = 0.713 (acceptable)
 
-The only criterium for selecting these questions was that they were present in all year 2021, 2022 and 2023 of the 100 Dagen Monitor data. Future work should involve a more systematic approach to selecting the most relevant questions for predicting drop-out cases.
+Final modeling dataset:
+- 21,595 students
+- 76 features without SDO78
+- 88 features with SDO78 (+12)
 
-## 5. Methods
-- Topics with multiple questions were aggregated by calculating the mean of the responses to those questions. 
-- Feature added: response type (Complete-responder, Partial-responder, Non-responder) to account for the different response types. 
-- All the student data was included, including those students who did not participate in the 100 dagen monitor.
+## 4. Results
 
-### 5.1 Preprocessing
-Two changes were made to the ML pipeline to incorporate the 100 Dagen Monitor data:
-- > CV-5 (from experimentation) was changed back to CV-10
-- > Low-frequency categories threshold was changed back from 50 to 100 (50 was only for experimentation). 
+### 4.1 Best Model Without SDO78
+XGBoost was best in CV-10x5 model comparison.
 
-### 5.2 Model(s)
+### 4.2 Tuning Effect (Without SDO78)
+Tuning yielded a small gain in CV PR-AUC (0.6335 -> 0.6366), indicating the baseline model was already close to optimal.
 
+### 4.3 SDO78 Impact (Tuned XGBoost, CV Means)
 
-### 5.3 Evaluation Metrics
-The two models will be evaluated using the following metrics:
-- Recall
-- Precision
-- F1-Score
-- PR-AUC
-- ROC-AUC
-- Accuracy
-We will calculate the mean and standard deviation of these metrics across the CV-5 folds to assess the model's performance and stability.
+| Metric | Without SDO78 | With SDO78 | Delta | p-value |
+|---|---:|---:|---:|---:|
+| PR-AUC | 0.6366 | **0.6463** | +0.0097 | < 0.001 |
+| ROC-AUC | 0.7772 | **0.7866** | +0.0094 | < 0.001 |
+| Recall | 0.6786 | **0.6989** | +0.0203 | < 0.001 |
+| F1 | 0.6060 | **0.6141** | +0.0081 | < 0.001 |
+| Accuracy | 0.7169 | 0.7181 | +0.0012 | 0.288 |
+| Precision | 0.5477 | 0.5478 | +0.0001 | 0.833 |
 
-## 6. Results
+Including SDO78 gives statistically significant improvements for PR-AUC, ROC-AUC, Recall, and F1; no significant change for Accuracy or Precision.
 
+## 5. Target Check
+Project targets are not yet met with SDO78 (Recall 69.9%, Precision 54.8%, F1 61.4%).
 
-### 6.1 Performance Comparison
+## 6. Key Limitations
+1. Support_Avg reliability is low (alpha 0.47).
+2. Selection bias remains: responders have much lower dropout than non-responders.
+3. HU22_01 missing in 2021 and excluded for consistency.
+4. 12 SDO78 items were expert-selected, not systematically optimized.
+5. Unmatched 2021/2022 records still need investigation.
 
-
-
-
-
-## 7. Discussion
-
-### 7.1 Hypothesis Verdict
-
-### 7.2 Limitations
-
-
-## 8. Next Steps
+## 7. Conclusion and Next Steps
+The hypothesis is partially supported: SDO78 data improves ranking and retrieval metrics meaningfully and significantly, but model performance remains below project targets. Next steps are to investigate unmatched records, reassess support items, run systematic feature selection, and add new predictive data sources.
