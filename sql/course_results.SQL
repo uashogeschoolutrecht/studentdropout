@@ -7,6 +7,7 @@
 --   1) First Grade: earliest grade by test date (ties resolved by D_TOETS_ID)
 --   2) Highest/Lowest Grade: max/min RESULTAAT_NUMERIC in Block A
 --   3) Variance Grade Block A: sample variance via VAR(...)
+--   4) Number of grades Block A: count of non-null RESULTAAT_NUMERIC in Block A
 -- ==============================================================================
 
 -- CTE 1: Student Enrollment Data
@@ -148,7 +149,8 @@ BlockA_grade_stats AS (
         MAX(CASE WHEN x.rn = 1 THEN x.RESULTAAT_NUMERIC END) AS [First Grade],
         MAX(x.RESULTAAT_NUMERIC) AS [Highest Grade Block A],
         MIN(x.RESULTAAT_NUMERIC) AS [Lowest Grade Block A],
-        VAR(CAST(x.RESULTAAT_NUMERIC AS FLOAT)) AS [Variance Grade Block A]
+        VAR(CAST(x.RESULTAAT_NUMERIC AS FLOAT)) AS [Variance Grade Block A],
+        COUNT(*) AS [Number of grades Block A]
     FROM (
         SELECT
             inschrijvingen.SINH_ID,
@@ -216,7 +218,8 @@ SELECT
     CONVERT(DECIMAL(10,2), MAX(bas.[First Grade])) AS [First Grade],
     CONVERT(DECIMAL(10,2), MAX(bas.[Highest Grade Block A])) AS [Highest Grade Block A],
     CONVERT(DECIMAL(10,2), MAX(bas.[Lowest Grade Block A])) AS [Lowest Grade Block A],
-    CONVERT(DECIMAL(18,4), MAX(bas.[Variance Grade Block A])) AS [Variance Grade Block A]
+    CONVERT(DECIMAL(18,4), MAX(bas.[Variance Grade Block A])) AS [Variance Grade Block A],
+    CONVERT(INT, MAX(bas.[Number of grades Block A])) AS [Number of grades Block A]
     
 FROM Credit_results cr
     LEFT JOIN BlockA_grade_stats bas
