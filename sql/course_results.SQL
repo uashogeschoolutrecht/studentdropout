@@ -172,7 +172,8 @@ BlockA_grade_stats AS (
 )
 
 -- Final Results: Pivot Block A and B results into separate columns
--- One output row per SINH_ID within the selected study population.
+-- One output row per distinct combination of SINH_ID and the grouped
+-- student/enrollment attributes within the selected study population.
 SELECT
 	cr.SINH_ID,
     cr.[Enrolled for at least one exam],
