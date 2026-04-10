@@ -133,11 +133,18 @@ Credit_results AS (
         toets_resultaten.[BLOK_LETTER]
 ),
 
--- CTE 4: Block A grade stats per student (SINH_ID)
--- Calculates row-level grade distribution metrics for Block A only.
+-- CTE 4: Block A grade stats per enrollment
+-- Calculates aggregate grade distribution metrics for Block A only,
+-- grouped at the same grain as the final output to avoid mixing grades
+-- across different programs and duplicating stats across output rows.
 BlockA_grade_stats AS (
     SELECT
         x.SINH_ID,
+        x.D_STUDENT_ID,
+        x.Ingangsmaand,
+        x.D_FASE_ID,
+        x.D_VORM_ID,
+        x.D_CROHO_ACTUEEL_ID,
         MAX(CASE WHEN x.rn = 1 THEN x.RESULTAAT_NUMERIC END) AS [First Grade],
         MAX(x.RESULTAAT_NUMERIC) AS [Highest Grade Block A],
         MIN(x.RESULTAAT_NUMERIC) AS [Lowest Grade Block A],
@@ -145,9 +152,19 @@ BlockA_grade_stats AS (
     FROM (
         SELECT
             inschrijvingen.SINH_ID,
+            inschrijvingen.D_STUDENT_ID,
+            inschrijvingen.Ingangsmaand,
+            inschrijvingen.D_FASE_ID,
+            inschrijvingen.D_VORM_ID,
+            inschrijvingen.D_CROHO_ACTUEEL_ID,
             tr.RESULTAAT_NUMERIC,
             ROW_NUMBER() OVER (
-                PARTITION BY inschrijvingen.SINH_ID
+                PARTITION BY inschrijvingen.SINH_ID,
+                             inschrijvingen.D_STUDENT_ID,
+                             inschrijvingen.D_CROHO_ACTUEEL_ID,
+                             inschrijvingen.D_FASE_ID,
+                             inschrijvingen.D_VORM_ID,
+                             inschrijvingen.Ingangsmaand
                 -- Earliest test first; D_TOETS_ID is a deterministic tie-breaker.
                 ORDER BY tr.D_TIJD_DAG_TOETS_DATUM_ID, tr.D_TOETS_ID
             ) AS rn
@@ -168,7 +185,12 @@ BlockA_grade_stats AS (
             AND inschrijvingen.[Ingangsmaand] = '9'           -- September intake
             AND inschrijvingen.[FASE_OMS] = 'Propedeuse'      -- First year phase
     ) x
-    GROUP BY x.SINH_ID
+    GROUP BY x.SINH_ID,
+             x.D_STUDENT_ID,
+             x.Ingangsmaand,
+             x.D_FASE_ID,
+             x.D_VORM_ID,
+             x.D_CROHO_ACTUEEL_ID
 )
 
 -- Final Results: Pivot Block A and B results into separate columns
@@ -199,6 +221,11 @@ SELECT
 FROM Credit_results cr
     LEFT JOIN BlockA_grade_stats bas
         ON cr.SINH_ID = bas.SINH_ID
+        AND cr.D_STUDENT_ID = bas.D_STUDENT_ID
+        AND cr.Ingangsmaand = bas.Ingangsmaand
+        AND cr.D_FASE_ID = bas.D_FASE_ID
+        AND cr.D_VORM_ID = bas.D_VORM_ID
+        AND cr.D_CROHO_ACTUEEL_ID = bas.D_CROHO_ACTUEEL_ID
 WHERE 1 = 1
     --AND cr.[Study year] = 2022           -- 2022 cohort (for testing purposes)
     --AND (cr.[Student number] = '1835931' OR cr.[Student number] = '1833704')  -- specific students (for testing purposes)
