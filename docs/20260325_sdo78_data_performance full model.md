@@ -31,8 +31,8 @@ The only criterium for selecting these questions was that they were present in a
 
 ### 5.1 Preprocessing
 Two changes were made to the ML pipeline to incorporate the 100 Dagen Monitor data:
-- > CV-10 was reduced to CV-5
-- > Low-frequency categories threshold was lowered from 100 to 50 to retain more information from the 100 Dagen Monitor data.
+- > CV-5 (from experimentation) was changed back to CV-10
+- > Low-frequency categories threshold was changed back from 50 to 100 (50 was only for experimentation). 
 
 ### 5.2 Model(s)
 
