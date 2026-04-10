@@ -1,8 +1,12 @@
--- ==============================================================================
+-- ============================================================================== 
 -- STUDENT COURSE RESULTS ANALYSIS QUERY
 -- ==============================================================================
 -- This query analyzes student performance by calculating credits and grades
 -- for Block A and Block B courses in the first year (Propedeuse phase)
+-- Extra Block A metrics per SINH_ID:
+--   1) First Grade: earliest grade by test date (ties resolved by D_TOETS_ID)
+--   2) Highest/Lowest Grade: max/min RESULTAAT_NUMERIC in Block A
+--   3) Variance Grade Block A: sample variance via VAR(...)
 -- ==============================================================================
 
 -- CTE 1: Student Enrollment Data
@@ -38,7 +42,7 @@ WITH inschrijvingen AS (
             ON inschrijvingen.[D_TIJD_DAG_INGANG_ID] = tijd_dag_ingang.[D_TIJD_DAG_ID]
     WHERE 1 = 1
         AND inschrijvingen.[COLLEGEJAAR] >= 2018
-        AND inschrijvingen.[COLLEGEJAAR] < 2025         --
+        AND inschrijvingen.[COLLEGEJAAR] < 2025
 ),
 
 -- CTE 2: Test Results Data
@@ -71,11 +75,11 @@ toets_resultaten AS (
         LEFT JOIN [DM].[VW_DM_D_TIJD_DAG] AS tijd_dag_aanvangsdag 
             ON toets_resultaten.[D_TIJD_DAG_AANVANGSDATUM_ID] = tijd_dag_aanvangsdag.[D_TIJD_DAG_ID]
     WHERE 1 = 1
-        AND (blok.[BLOK_LETTER] = 'A' OR blok.[BLOK_LETTER] = 'B')  -- Only Block A and B
+        AND blok.[BLOK_LETTER] IN ('A', 'B')  -- Only Block A and B
         AND toets_resultaten.[COLLEGEJAAR] = toets_resultaten.[COHORT_OPLEIDING]  -- First year students
         AND toets_resultaten.[TOETS_POGING_NR] = '1'  -- First attempt only
         AND toets_resultaten.[COLLEGEJAAR] >= 2018
-        AND toets_resultaten.[COLLEGEJAAR] < 2025         
+        AND toets_resultaten.[COLLEGEJAAR] < 2025
 ),
 
 -- CTE 3: Credit Results Calculation
@@ -98,7 +102,7 @@ Credit_results AS (
         -- Calculate percentage of credits obtained
         CASE 
             WHEN SUM(PUNTEN) IS NOT NULL AND SUM(PUNTEN) > 0
-            THEN ROUND(SUM(PUNTEN_GELDIG)/SUM(PUNTEN)*100, 2) 
+            THEN ROUND(SUM(PUNTEN_GELDIG) * 100.0 / SUM(PUNTEN), 2)
             ELSE NULL
         END AS [Percentage Credits]
     FROM inschrijvingen
@@ -127,37 +131,84 @@ Credit_results AS (
         inschrijvingen.[COLLEGEJAAR],
         inschrijvingen.[CROHO],
         toets_resultaten.[BLOK_LETTER]
+),
+
+-- CTE 4: Block A grade stats per student (SINH_ID)
+-- Calculates row-level grade distribution metrics for Block A only.
+BlockA_grade_stats AS (
+    SELECT
+        x.SINH_ID,
+        MAX(CASE WHEN x.rn = 1 THEN x.RESULTAAT_NUMERIC END) AS [First Grade],
+        MAX(x.RESULTAAT_NUMERIC) AS [Highest Grade Block A],
+        MIN(x.RESULTAAT_NUMERIC) AS [Lowest Grade Block A],
+        VAR(CAST(x.RESULTAAT_NUMERIC AS FLOAT)) AS [Variance Grade Block A]
+    FROM (
+        SELECT
+            inschrijvingen.SINH_ID,
+            tr.RESULTAAT_NUMERIC,
+            ROW_NUMBER() OVER (
+                PARTITION BY inschrijvingen.SINH_ID
+                -- Earliest test first; D_TOETS_ID is a deterministic tie-breaker.
+                ORDER BY tr.D_TIJD_DAG_TOETS_DATUM_ID, tr.D_TOETS_ID
+            ) AS rn
+        FROM inschrijvingen
+            INNER JOIN toets_resultaten tr
+                ON inschrijvingen.[D_STUDENT_ID] = tr.[D_STUDENT_ID]
+                AND inschrijvingen.[COLLEGEJAAR] = tr.[COLLEGEJAAR]
+                AND inschrijvingen.[D_CROHO_ACTUEEL_ID] = tr.[D_CROHO_ACTUEEL_ID]
+                AND inschrijvingen.[Ingangsmaand] = tr.[Aanvangsdag_maand]
+                AND inschrijvingen.[D_FASE_ID] = tr.[D_FASE_ID]
+                AND inschrijvingen.[D_VORM_ID] = tr.[D_VORM_ID]
+        WHERE tr.BLOK_LETTER = 'A'
+            AND tr.RESULTAAT_NUMERIC IS NOT NULL
+            AND inschrijvingen.[TYPE_HO_OMS] = 'BA'           -- Bachelor students only
+            AND inschrijvingen.[VORM_CD] = 'V'                -- Full-time students
+            AND inschrijvingen.[ACTIEFCODE] = 4               -- Active enrollment
+            AND inschrijvingen.[COLLEGEJAAR] = inschrijvingen.[COHORT_OPLEIDING]  -- First year
+            AND inschrijvingen.[Ingangsmaand] = '9'           -- September intake
+            AND inschrijvingen.[FASE_OMS] = 'Propedeuse'      -- First year phase
+    ) x
+    GROUP BY x.SINH_ID
 )
 
 -- Final Results: Pivot Block A and B results into separate columns
+-- One output row per SINH_ID within the selected study population.
 SELECT
-	SINH_ID,
-    [Enrolled for at least one exam],
+	cr.SINH_ID,
+    cr.[Enrolled for at least one exam],
     
     -- Block A Results
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Total Credits] ELSE 0 END), NULL), 2)) AS [Total Credits Block A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'A' THEN [Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits A],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'A' THEN [Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN cr.[Block] = 'A' THEN cr.[Total Credits] ELSE 0 END), NULL), 2)) AS [Total Credits Block A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN cr.[Block] = 'A' THEN cr.[Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN cr.[Block] = 'A' THEN cr.[Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits A],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN cr.[Block] = 'A' THEN cr.[Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade A],
     
     -- Block B Results
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'B' THEN [Total Credits] ELSE 0 END), 0), 2)) AS [Total Credits Block B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN [Block] = 'B' THEN [Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits B],
-    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN [Block] = 'B' THEN [Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade B]
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN cr.[Block] = 'B' THEN cr.[Total Credits] ELSE 0 END), 0), 2)) AS [Total Credits Block B],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(SUM(CASE WHEN cr.[Block] = 'B' THEN cr.[Potential Credits] ELSE NULL END), NULL), 2)) AS [Potential Credits B],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN cr.[Block] = 'B' THEN cr.[Percentage Credits] ELSE NULL END), NULL), 2)) AS [Percentage Credits B],
+    CONVERT(DECIMAL(10,2), ROUND(COALESCE(AVG(CASE WHEN cr.[Block] = 'B' THEN cr.[Average Grade] ELSE NULL END), NULL), 2)) AS [Average Grade B],
+
+    -- Additional Block A grade columns
+    CONVERT(DECIMAL(10,2), MAX(bas.[First Grade])) AS [First Grade],
+    CONVERT(DECIMAL(10,2), MAX(bas.[Highest Grade Block A])) AS [Highest Grade Block A],
+    CONVERT(DECIMAL(10,2), MAX(bas.[Lowest Grade Block A])) AS [Lowest Grade Block A],
+    CONVERT(DECIMAL(18,4), MAX(bas.[Variance Grade Block A])) AS [Variance Grade Block A]
     
-FROM Credit_results
+FROM Credit_results cr
+    LEFT JOIN BlockA_grade_stats bas
+        ON cr.SINH_ID = bas.SINH_ID
 WHERE 1 = 1
-    --AND [Study year] = 2022           -- 2022 cohort (for testing purposes)
-    --AND ([Student number] = '1835931' OR [Student number] = '1833704')  -- specific students (for testing purposes)      
-    --AND [Croho] = '39280'
+    --AND cr.[Study year] = 2022           -- 2022 cohort (for testing purposes)
+    --AND (cr.[Student number] = '1835931' OR cr.[Student number] = '1833704')  -- specific students (for testing purposes)
+    --AND cr.[Croho] = '39280'
     
-GROUP BY D_STUDENT_ID,
-    Ingangsmaand,
-    D_FASE_ID,
-    D_VORM_ID,
-    D_CROHO_ACTUEEL_ID,
-    [Enrolled for at least one exam],
-    SINH_ID
+GROUP BY cr.D_STUDENT_ID,
+    cr.Ingangsmaand,
+    cr.D_FASE_ID,
+    cr.D_VORM_ID,
+    cr.D_CROHO_ACTUEEL_ID,
+    cr.[Enrolled for at least one exam],
+    cr.SINH_ID
 
 -- ==============================================================================
