@@ -16,6 +16,6 @@ SELECT
   AND ODS_ACTUEEL_IND = 1
   AND skc.COLLEGEJAAR >= 2018 
   AND skc.COLLEGEJAAR <= 2024
-  AND INSCHRIJVING = 'JA'
+  --AND INSCHRIJVING = 'JA'     # This values seems no longer to be filled in 2024, so disabled.
   AND VOLTIJD_DEELTIJD = 'V'
   ORDER BY SKC_DATUM DESC
