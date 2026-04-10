@@ -130,7 +130,7 @@ Credit_results AS (
 )
 
 -- Final Results: Pivot Block A and B results into separate columns
-SELECT TOP(100000)
+SELECT
 	SINH_ID,
     [Enrolled for at least one exam],
     
