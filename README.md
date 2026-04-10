@@ -136,10 +136,10 @@ In addition to the gathered data, new data is created by combining data (feature
     - Stress (L129)
     - Motivation to complete the program (L110)
     - Satisfaction with choice of degree (L3)
-    - Support_Avg — composite of 3 support-experience items (HU27_01–03); aggregation validated with Cronbach's alpha
+    - Support_Avg — composite of 3 support-experience items (HU27_01–03); Cronbach's alpha was computed, but internal consistency was below the 0.7 threshold (α≈0.47)
     - Belonging_Avg — composite of 3 sense-of-belonging items (HU28_01–03); aggregation validated with Cronbach's alpha
     - `sdo78_response_type` — categorical: Complete-responder / Partial-responder / Non-responder
-    - **Limitations**: ~18.9% overall response rate; non-responders show ~36% dropout vs ~19% for responders (selection bias). Response restricted to years 2021–2023. Question HU22_01 absent in 2021 and excluded. Question selection is non-systematic (expert-driven MVP); systematic feature importance analysis is future work.
+    - **Limitations**: ~18.9% overall response rate; non-responders show ~36% dropout vs ~19% for responders (selection bias). Response restricted to years 2021–2023. Question HU22_01 absent in 2021 and excluded. `Support_Avg` showed low internal consistency (Cronbach's α≈0.47, below the 0.7 threshold), so results using this composite should be interpreted with caution. Question selection is non-systematic (expert-driven MVP); systematic feature importance analysis is future work.
 
 ### Exclusion of data
 - Any student with a gender different from M or F. 
