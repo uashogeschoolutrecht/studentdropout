@@ -219,7 +219,7 @@ SELECT
     CONVERT(DECIMAL(10,2), MAX(bas.[Highest Grade Block A])) AS [Highest Grade Block A],
     CONVERT(DECIMAL(10,2), MAX(bas.[Lowest Grade Block A])) AS [Lowest Grade Block A],
     CONVERT(DECIMAL(18,4), MAX(bas.[Variance Grade Block A])) AS [Variance Grade Block A],
-    CONVERT(INT, MAX(bas.[Number of grades Block A])) AS [Number of grades Block A]
+    CONVERT(INT, CASE WHEN MAX(bas.[Number of grades Block A]) IS NOT NULL THEN MAX(bas.[Number of grades Block A]) ELSE 0 END) AS [Number of grades Block A]
     
 FROM Credit_results cr
     LEFT JOIN BlockA_grade_stats bas
